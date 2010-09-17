@@ -49,6 +49,17 @@ component {
 		return variables.cursor.getSizes();
 	}
 	
+	public component function hint( required any index ) {
+		if(isStruct(arguments.index)) {
+			variables.cursor.hint( variables.utility.createBasicDBObject( duplicate( arguments.index ) ) );
+		} else {
+			variables.cursor.hint( index );
+		}
+		
+		// Allow chaining
+		return this;
+	}
+	
 	public boolean function hasNext() {
 		return variables.cursor.hasNext();
 	}
