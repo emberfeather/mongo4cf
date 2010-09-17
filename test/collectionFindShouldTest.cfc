@@ -8,7 +8,7 @@ component extends="test.base" {
 		
 		variables.collection.insert({ 'test': 'working' });
 		
-		result = variables.collection.find();
+		result = variables.collection.find().toArray();
 		
 		assertEquals(1, arrayLen(result));
 	}
@@ -21,7 +21,7 @@ component extends="test.base" {
 			variables.collection.insert({ 'test': 'working' });
 		}
 		
-		results = variables.collection.find();
+		results = variables.collection.find().toArray();
 		
 		assertEquals(10, arrayLen(results));
 	}
@@ -29,7 +29,7 @@ component extends="test.base" {
 	public void function testSucceedWithoutAnyDocuments() {
 		var results = '';
 		
-		results = variables.collection.find();
+		results = variables.collection.find().toArray();
 		
 		assertEquals(0, arrayLen(results));
 	}
@@ -39,7 +39,7 @@ component extends="test.base" {
 		
 		variables.collection.insert({ 'test': 'working', 'testing': 'is it?' });
 		
-		results = variables.collection.find({}, { 'test': 1 });
+		results = variables.collection.find({}, { 'test': 1 }).toArray();
 		
 		// Always going to return the _id
 		assertEquals(2, structCount(results[1]));
@@ -50,7 +50,7 @@ component extends="test.base" {
 		
 		variables.collection.insert({ 'test': 'working', 'testing': 'is it?', 'other': true });
 		
-		results = variables.collection.find({}, { 'test': 0 });
+		results = variables.collection.find({}, { 'test': 0 }).toArray();
 		
 		// Always going to return the _id
 		assertEquals(3, structCount(results[1]));
@@ -62,7 +62,7 @@ component extends="test.base" {
 		variables.collection.insert({ 'test': 'working' });
 		variables.collection.insert({ 'test': 'not working' });
 		
-		results = variables.collection.find({ 'test': 'working' });
+		results = variables.collection.find({ 'test': 'working' }).toArray();
 		
 		assertEquals(1, arrayLen(results));
 	}
@@ -75,7 +75,7 @@ component extends="test.base" {
 			variables.collection.insert({ 'test': i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$gt': 5 } });
+		results = variables.collection.find({ 'test': { '$gt': 5 } }).toArray();
 		
 		assertEquals(5, arrayLen(results));
 	}
@@ -88,7 +88,7 @@ component extends="test.base" {
 			variables.collection.insert({ 'test': i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$lt': 5 } });
+		results = variables.collection.find({ 'test': { '$lt': 5 } }).toArray();
 		
 		assertEquals(4, arrayLen(results));
 	}
