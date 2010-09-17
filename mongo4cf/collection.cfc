@@ -28,8 +28,8 @@ component {
 		variables.collection.drop();
 	}
 	
-	public array function find(required struct doc) {
-		var cursor = findAsCursor(arguments.doc);
+	public array function find(struct doc = {}, struct keys = {}, numeric numToSkip = 0, numeric batchSize = 0) {
+		var cursor = findAsCursor(argumentCollection = arguments);
 		var results = [];
 		
 		while(cursor.hasNext()) {
@@ -39,13 +39,13 @@ component {
 		return results;
 	}
 	
-	public any function findAsArray(required struct doc) {
-		return findAsCursor(arguments.doc).toArray();
+	public any function findAsArray(struct doc = {}, struct keys = {}, numeric numToSkip = 0, numeric batchSize = 0) {
+		return findAsCursor(argumentCollection = arguments).toArray();
 	}
 	
-	public any function findAsCursor(required struct doc) {
+	public any function findAsCursor(struct doc = {}, struct keys = {}, numeric numToSkip = 0, numeric batchSize = 0 ) {
 		// Find the generated db object
-		return variables.collection.find( createDBObject( duplicate( arguments.doc ) ) );
+		return variables.collection.find( createDBObject( duplicate( arguments.doc ) ), createDBObject( duplicate( arguments.keys ) ), arguments.numToSkip, arguments.batchSize );
 	}
 	
 	public struct function findOne() {
