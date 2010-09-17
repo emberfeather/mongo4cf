@@ -52,6 +52,10 @@ component {
 		return _toCFType(variables.collection.findOne());
 	}
 	
+	public numeric function getCount() {
+		return variables.collection.getCount();
+	}
+	
 	public any function insert(required any docs) {
 		var dbObjects = [];
 		var i = '';
@@ -68,7 +72,7 @@ component {
 		return variables.collection.insert( dbObjects );
 	}
 	
-	private function _toCFType(required any value ) {
+	private any function _toCFType(required any value ) {
 		var i = '';
 		var keys = '';
 		var temp = '';
@@ -76,12 +80,13 @@ component {
 		// Look for nested documents
 		if( isStruct(arguments.value) ) {
 			keys = arguments.value.keySet().toArray();
+			temp = {};
 			
 			for( i = 1; i <= arrayLen(keys); i++ ) {
-				arguments.value[keys[i]] = _toCFType(arguments.value[keys[i]]);
+				temp[keys[i]] = _toCFType(arguments.value[keys[i]]);
 			}
 			
-			return arguments.value;
+			return temp;
 		}
 		
 		if( isObject(value) ) {
