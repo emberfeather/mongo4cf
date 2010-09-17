@@ -24,6 +24,10 @@ component {
 		return dbObject;
 	}
 	
+	public void function drop() {
+		variables.collection.drop();
+	}
+	
 	public array function find(required struct doc) {
 		var cursor = findAsCursor(arguments.doc);
 		var results = [];
@@ -42,6 +46,10 @@ component {
 	public any function findAsCursor(required struct doc) {
 		// Find the generated db object
 		return variables.collection.find( createDBObject( duplicate( arguments.doc ) ) );
+	}
+	
+	public struct function findOne() {
+		return _toCFType(variables.collection.findOne());
 	}
 	
 	public any function insert(required any docs) {
