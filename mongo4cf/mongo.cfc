@@ -9,6 +9,10 @@ component {
 		return this;
 	}
 	
+	public array function getDatabaseNames() {
+		return variables.server.getDatabaseNames().toArray();
+	}
+	
 	public component function getDB( required string databaseName ) {
 		// Check for a cached version of the database
 		if(structKeyExists(variables.databases, arguments.databaseName)) {
