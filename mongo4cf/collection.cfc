@@ -68,13 +68,12 @@ component {
 		// Look for nested documents
 		if( isStruct(arguments.value) ) {
 			keys = arguments.value.keySet().toArray();
-			temp = {};
 			
 			for( i = 1; i <= arrayLen(keys); i++ ) {
-				temp[keys[i]] = _toCFType(arguments.value[keys[i]]);
+				arguments.value[keys[i]] = _toCFType(arguments.value[keys[i]]);
 			}
 			
-			return temp;
+			return arguments.value;
 		}
 		
 		if( isObject(value) ) {
