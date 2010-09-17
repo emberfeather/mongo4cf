@@ -21,7 +21,7 @@ component {
 		}
 		
 		// Create a collection object
-		variables.collections[arguments.collectionName] = createObject('component', 'mongo4cf.database');
+		variables.collections[arguments.collectionName] = createObject('component', 'mongo4cf.collection');
 		
 		// Populate the collection with the results from the server
 		variables.collections[arguments.collectionName].init(variables.db.getCollection(arguments.collectionName));
