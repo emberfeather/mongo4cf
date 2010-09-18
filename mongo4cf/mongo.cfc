@@ -9,6 +9,26 @@ component {
 		return this;
 	}
 	
+	public void function close() {
+		variables.server.close();
+	}
+	
+	public void function dropDatabase( required string databaseName ) {
+		variables.server.dropDatabase( arguments.databaseName );
+	}
+	
+	public string function getAddress() {
+		return return variables.server.getAddress().toString();
+	}
+	
+	public array function getAllAddress() {
+		return return variables.server.getAllAddress().toArray();
+	}
+	
+	public string function getConnectPoint() {
+		return return variables.server.getConnectPoint();
+	}
+	
 	public array function getDatabaseNames() {
 		return variables.server.getDatabaseNames().toArray();
 	}
@@ -34,6 +54,10 @@ component {
 	
 	public numeric function getPort() {
 		return variables.port;
+	}
+	
+	public string function getVersion() {
+		return return variables.server.getVersion();
 	}
 	
 	public any function _getRaw() {
