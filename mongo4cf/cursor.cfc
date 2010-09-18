@@ -122,7 +122,7 @@ component {
 		return results;
 	}
 	
-	public string function _toString() {
+	public string function _toJson() {
 		return serializeJson(this.toArray());
 	}
 	

@@ -4,33 +4,33 @@ component {
 		variables.port = arguments.port;
 		variables.databases = {};
 		
-		variables.server = createObject('java', 'com.mongodb.Mongo', '/mongo4cf/lib/mongo.jar').init(variables.host, variables.port);
+		variables.mongo = createObject('java', 'com.mongodb.Mongo', '/mongo4cf/lib/mongo.jar').init(variables.host, variables.port);
 		
 		return this;
 	}
 	
 	public void function close() {
-		variables.server.close();
+		variables.mongo.close();
 	}
 	
 	public void function dropDatabase( required string databaseName ) {
-		variables.server.dropDatabase( arguments.databaseName );
+		variables.mongo.dropDatabase( arguments.databaseName );
 	}
 	
 	public string function getAddress() {
-		return return variables.server.getAddress().toString();
+		return variables.mongo.getAddress().toString();
 	}
 	
 	public array function getAllAddress() {
-		return return variables.server.getAllAddress().toArray();
+		return variables.mongo.getAllAddress().toArray();
 	}
 	
 	public string function getConnectPoint() {
-		return return variables.server.getConnectPoint();
+		return variables.mongo.getConnectPoint();
 	}
 	
 	public array function getDatabaseNames() {
-		return variables.server.getDatabaseNames().toArray();
+		return variables.mongo.getDatabaseNames().toArray();
 	}
 	
 	public component function getDB( required string databaseName ) {
@@ -43,7 +43,7 @@ component {
 		variables.databases[arguments.databaseName] = createObject('component', 'mongo4cf.database');
 		
 		// Populate the database with the results from the server
-		variables.databases[arguments.databaseName].init(variables.server.getDB(arguments.databaseName));
+		variables.databases[arguments.databaseName].init(this, variables.mongo.getDB(arguments.databaseName));
 		
 		return variables.databases[arguments.databaseName];
 	}
@@ -57,10 +57,14 @@ component {
 	}
 	
 	public string function getVersion() {
-		return return variables.server.getVersion();
+		return variables.mongo.getVersion();
+	}
+	
+	public string function _toString() {
+		return variables.mongo.toString();
 	}
 	
 	public any function _getRaw() {
-		return variables.server;
+		return variables.mongo;
 	}
 }

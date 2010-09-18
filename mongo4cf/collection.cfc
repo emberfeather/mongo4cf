@@ -1,6 +1,8 @@
 component {
-	public component function init( required any collection ) {
+	public component function init( required component mongo, required component db, required any collection ) {
 		variables.utility = createObject('component', 'mongo4cf.utility').init();
+		variables.mongo = arguments.mongo;
+		variables.db = arguments.db;
 		variables.collection = arguments.collection;
 		
 		return this;
@@ -64,7 +66,7 @@ component {
 	}
 	
 	public component function getDB() {
-		return createObject('component', 'mongo4cf.database').init(variables.collection.getDB());
+		return variables.db;
 	}
 	
 	public string function getFullName() {
