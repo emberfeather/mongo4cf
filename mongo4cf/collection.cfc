@@ -1,7 +1,6 @@
 component {
-	public component function init( required component mongo, required component db, required any collection ) {
+	public component function init( required component db, required any collection ) {
 		variables.utility = createObject('component', 'mongo4cf.utility').init();
-		variables.mongo = arguments.mongo;
 		variables.db = arguments.db;
 		variables.collection = arguments.collection;
 		

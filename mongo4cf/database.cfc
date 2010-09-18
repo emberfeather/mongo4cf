@@ -23,7 +23,7 @@ component {
 	public boolean function createCollection(required string collectionName, required struct options) {
 		var collection = variables.db.createCollection(arguments.collectionName, variables.utility.createBasicDBObject( duplicate( arguments.options ) ));
 		
-		return createObject('component', 'mongo4cf.collection').init(variables.mongo, this, collection);
+		return createObject('component', 'mongo4cf.collection').init(this, collection);
 	}
 	
 	public void function dropDatabase() {
@@ -40,7 +40,7 @@ component {
 		variables.collections[arguments.collectionName] = createObject('component', 'mongo4cf.collection');
 		
 		// Populate the collection with the results from the server
-		variables.collections[arguments.collectionName].init(variables.mongo, this, variables.db.getCollection(arguments.collectionName));
+		variables.collections[arguments.collectionName].init(this, variables.db.getCollection(arguments.collectionName));
 		
 		return variables.collections[arguments.collectionName];
 	}
