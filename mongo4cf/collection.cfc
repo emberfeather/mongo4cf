@@ -63,8 +63,40 @@ component {
 		return variables.utility.toCFType(variables.collection.findOne());
 	}
 	
-	public numeric function getCount() {
+	public component function getDB() {
+		return createObject('component', 'mongo4cf.database').init(variables.collection.getDB());
+	}
+	
+	public string function getFullName() {
+		return variables.collection.getFullName();
+	}
+	
+	public numeric function getCount( struct query, struct fields, numeric limit, numeric skip ) {
+		if(structKeyExists(arguments, 'query')) {
+			if(structKeyExists(arguments, 'limit') && structKeyExists(arguments, 'skip')) {
+				return variables.collection.getCount(
+					variables.utility.createBasicDBObject( duplicate( arguments.index ) ),
+					variables.utility.createBasicDBObject( duplicate( arguments.fields ) ),
+					arguments.limit,
+					arguments.skip
+				);
+			}
+			
+			if(structKeyExists(arguments, 'fields')) {
+				return variables.collection.getCount(
+					variables.utility.createBasicDBObject( duplicate( arguments.index ) ),
+					variables.utility.createBasicDBObject( duplicate( arguments.fields ) )
+				);
+			}
+			
+			return variables.collection.getCount( variables.utility.createBasicDBObject( duplicate( arguments.query ) ) );
+		}
+		
 		return variables.collection.getCount();
+	}
+	
+	public string function getName() {
+		return variables.collection.getName();
 	}
 	
 	public any function insert(required any docs) {
@@ -81,6 +113,17 @@ component {
 		
 		// Insert the generated db object
 		return variables.collection.insert( dbObjects );
+	}
+	
+	public component function rename( required string name ) {
+		return variables.collection.rename( arguments.name );
+		
+		// Allow chaining
+		return this;
+	}
+	
+	public string function _toString() {
+		return variables.collection.toString();
 	}
 	
 	public any function _getRaw() {
