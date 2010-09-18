@@ -6,8 +6,41 @@ component {
 		return this;
 	}
 	
+	public void function createIndex( required struct index ) {
+		variables.collection.createIndex( variables.utility.createBasicDBObject( duplicate( arguments.index ) ) );
+	}
+	
 	public void function drop() {
 		variables.collection.drop();
+	}
+	
+	public void function dropIndex( required any index ) {
+		if(isStruct(arguments.index)) {
+			variables.collection.dropIndex( variables.utility.createBasicDBObject( duplicate( arguments.index ) ) );
+		} else {
+			variables.collection.dropIndex( index );
+		}
+	}
+	
+	public void function dropIndexes() {
+		variables.collection.dropIndexes();
+	}
+	
+	public void function ensureIndex( required any index, any options, boolean unique ) {
+		if(structKeyExists(arguments, 'options')) {
+			if(isStruct(arguments.options) and !structIsEmpty(arguments.options)) {
+				variables.collection.ensureIndex(
+					variables.utility.createBasicDBObject( duplicate( arguments.index ) ),
+					variables.utility.createBasicDBObject( duplicate( arguments.options ) )
+				);
+			} else if(structKeyExists(arguments, 'unique')) {
+				variables.collection.ensureIndex( variables.utility.createBasicDBObject( duplicate( arguments.index ) ), arguments.options, arguments.unique );
+			} else {
+				variables.collection.ensureIndex( variables.utility.createBasicDBObject( duplicate( arguments.index ) ), arguments.options );
+			}
+		} else {
+			variables.collection.ensureIndex( variables.utility.createBasicDBObject( duplicate( arguments.index ) ) );
+		}
 	}
 	
 	public component function find(struct doc = {}, struct keys = {}, numeric numToSkip = 0, numeric batchSize = 0) {
@@ -24,10 +57,6 @@ component {
 		);
 		
 		return cursor;
-	}
-	
-	public array function findAsArray(struct doc = {}, struct keys = {}, numeric numToSkip = 0, numeric batchSize = 0) {
-		return this.find(argumentCollection = arguments).toArray();
 	}
 	
 	public struct function findOne() {
