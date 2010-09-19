@@ -88,7 +88,7 @@ component {
 				return variables.utility.toCFType(variables.collection.findOne( variables.utility.createBasicDBObject( duplicate( arguments.obj ) ) ) );
 			}
 			
-			return variables.utility.toCFType(variables.collection.findOne( arguments.obj );
+			return variables.utility.toCFType(variables.collection.findOne( arguments.obj ) );
 		}
 		
 		return variables.utility.toCFType(variables.collection.findOne());
