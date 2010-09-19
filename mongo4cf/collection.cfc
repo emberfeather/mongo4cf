@@ -31,8 +31,12 @@ component {
 		}
 	}
 	
-	public void function dropIndexes() {
-		variables.collection.dropIndexes();
+	public void function dropIndexes( string name ) {
+		if( structKeyExists(arguments, 'name') ) {
+			variables.collection.dropIndexes( arguments.name );
+		} else {
+			variables.collection.dropIndexes();
+		}
 	}
 	
 	public void function ensureIndex( required any index, any options, boolean unique ) {
