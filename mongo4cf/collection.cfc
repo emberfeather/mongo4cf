@@ -76,7 +76,13 @@ component {
 		return cursor;
 	}
 	
-	public struct function findOne() {
+	public struct function findOne( struct query, struct fields ) {
+		if(structKeyExists(arguments, 'query') && structKeyExists(arguments, 'fields')) {
+			return variables.utility.toCFType(variables.collection.findOne( variables.utility.createBasicDBObject( duplicate( arguments.query ) ), variables.utility.createBasicDBObject( duplicate( arguments.fields ) ) ));
+		} else if(structKeyExists(arguments, 'query')) {
+			return variables.utility.toCFType(variables.collection.findOne( variables.utility.createBasicDBObject( duplicate( arguments.query ) ) ));
+		}
+		
 		return variables.utility.toCFType(variables.collection.findOne());
 	}
 	
