@@ -56,6 +56,10 @@ component {
 		}
 	}
 	
+	public boolean function equals( required component otherCollection ) {
+		return variables.collection.equals(arguments.otherCollection._getRaw());
+	}
+	
 	public component function find(struct doc = {}, struct keys = {}, numeric numToSkip = 0, numeric batchSize = 0) {
 		var cursor = '';
 		
