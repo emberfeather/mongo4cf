@@ -11,6 +11,14 @@ component {
 		variables.collection.createIndex( variables.utility.createBasicDBObject( duplicate( arguments.index ) ) );
 	}
 	
+	public array function distinct( required string key, struct query ) {
+		if( structKeyExists(arguments, 'query') ) {
+			return variables.collection.distinct( arguments.key, variables.utility.createBasicDBObject( duplicate( arguments.query ) ) ).toArray();
+		}
+		
+		return variables.collection.distinct( arguments.key ).toArray();
+	}
+	
 	public void function drop() {
 		variables.collection.drop();
 	}
