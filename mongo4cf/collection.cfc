@@ -126,6 +126,10 @@ component {
 		return variables.collection.getCount();
 	}
 	
+	public array function getIndexInfo() {
+		return variables.utility.toCFType(variables.collection.getIndexInfo());
+	}
+	
 	public string function getName() {
 		return variables.collection.getName();
 	}
