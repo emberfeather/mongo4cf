@@ -27,6 +27,10 @@ component {
 		var keys = '';
 		var temp = '';
 		
+		if( isNull(arguments.value) ) {
+			return {};
+		}
+		
 		// Look for nested documents
 		if( isStruct(arguments.value) ) {
 			keys = arguments.value.keySet().toArray();
@@ -39,11 +43,19 @@ component {
 			return temp;
 		}
 		
-		if( isObject(value) ) {
-			return value.toString();
+		// Look for arrays
+		if( isArray(arguments.value) ) {
+			for( i = 1; i <= arrayLen(arguments.value); i++ ) {
+				arguments.value[i] = toCFType(arguments.value[i]);
+			}
 		}
 		
-		return value;
+		// Check for native java objects
+		if( isObject(arguments.value) ) {
+			return arguments.value.toString();
+		}
+		
+		return arguments.value;
 	}
 	
 	public function toJavaType(required any value ) {
