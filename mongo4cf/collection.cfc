@@ -60,20 +60,43 @@ component {
 		return variables.collection.equals(arguments.otherCollection._getRaw());
 	}
 	
-	public component function find(struct doc = {}, struct keys = {}, numeric numToSkip = 0, numeric batchSize = 0) {
-		var cursor = '';
+	public component function find(struct doc, struct keys, numeric numToSkip, numeric batchSize, struct options) {
+		var results = '';
 		
-		// Find the generated db object
-		cursor = createObject('component', 'mongo4cf.cursor').init(
-			variables.collection.find(
-				variables.utility.createBasicDBObject( duplicate( arguments.doc ) ),
-				variables.utility.createBasicDBObject( duplicate( arguments.keys ) ),
-				arguments.numToSkip,
-				arguments.batchSize
-			)
-		);
+		// Find the documents
+		if(structKeyExists(arguments, 'doc')) {
+			if(structKeyExists(arguments, 'keys')) {
+				if(structKeyExists(arguments, 'numToSkip') and structKeyExists(arguments, 'batchSize')) {
+					if(structKeyExists(arguments, 'options')) {
+						results = variables.collection.find(
+							variables.utility.createBasicDBObject( duplicate( arguments.doc ) ),
+							variables.utility.createBasicDBObject( duplicate( arguments.keys ) ),
+							arguments.numToSkip,
+							arguments.batchSize,
+							variables.utility.createBasicDBObject( duplicate( arguments.options ) )
+						);
+					} else {
+						results = variables.collection.find(
+							variables.utility.createBasicDBObject( duplicate( arguments.doc ) ),
+							variables.utility.createBasicDBObject( duplicate( arguments.keys ) ),
+							arguments.numToSkip,
+							arguments.batchSize
+						);
+					}
+				} else {
+					results = variables.collection.find(
+						variables.utility.createBasicDBObject( duplicate( arguments.doc ) ),
+						variables.utility.createBasicDBObject( duplicate( arguments.keys ) )
+					);
+				}
+			} else {
+				results = variables.collection.find( variables.utility.createBasicDBObject( duplicate( arguments.doc ) ) );
+			}
+		} else {
+			results = variables.collection.find();
+		}
 		
-		return cursor;
+		return createObject('component', 'mongo4cf.cursor').init( results );
 	}
 	
 	public struct function findOne( any obj, struct fields ) {
