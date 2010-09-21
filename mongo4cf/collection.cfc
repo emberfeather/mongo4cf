@@ -165,6 +165,13 @@ component {
 			arguments.docs = [ arguments.docs ];
 		}
 		
+		// Allow to pass multiple docs as separate arguments
+		if(arrayLen(arguments) > 1) {
+			for(i = 2; i <= arrayLen(arguments); i++) {
+				arrayAppend(arguments.docs, arguments[i]);
+			}
+		}
+		
 		for(i = 1; i <= arrayLen(arguments.docs); i++) {
 			arrayAppend(dbObjects, variables.utility.createBasicDBObject( duplicate( arguments.docs[i] ) ))
 		}

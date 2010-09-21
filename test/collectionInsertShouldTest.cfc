@@ -12,4 +12,30 @@ component extends="test.base" {
 		
 		assertEquals('working', result.test);
 	}
+	
+	public void function testSucceedWithMultipleDocumentsAsArguments() {
+		var result = '';
+		
+		variables.collection.insert(
+			{ 'test': 'working1' },
+			{ 'test': 'working2' },
+			{ 'test': 'working3' },
+			{ 'test': 'working4' }
+		);
+		
+		assertEquals(4, variables.collection.getCount());
+	}
+	
+	public void function testSucceedWithMultipleDocumentsAsArray() {
+		var result = '';
+		
+		variables.collection.insert([
+			{ 'test': 'working1' },
+			{ 'test': 'working2' },
+			{ 'test': 'working3' },
+			{ 'test': 'working4' }
+		]);
+		
+		assertEquals(4, variables.collection.getCount());
+	}
 }
