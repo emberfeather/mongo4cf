@@ -1,0 +1,13 @@
+# General
+general.verbose=true
+
+# Test Settings
+test.host=localhost
+test.port=8500
+
+# MXUnit
+test.mxunit.defaultrunner=/mxunit/runner/HttpAntRunner.cfc
+test.mxunit.componentpath=test
+
+# varScoper
+test.varscoper.base=/varscoper

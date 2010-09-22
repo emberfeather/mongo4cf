@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<project name="mongo4cf" default="prepare" basedir=".">
+	<!-- Include the property files -->
+	<property file="${basedir}/build/settings/user.properties"/>
+	<property file="${basedir}/build/settings/project.properties"/>
+	<property file="${basedir}/build/settings/version.properties"/>
+	<property file="${basedir}/build/settings/build.properties"/>
+	<property file="${basedir}/build/settings/test.properties"/>
+	
+	<target name="prepare">
+		<echo message="Starting: Environment Preparation"/>
+		
+		<!-- Make the distribution directory -->
+		<mkdir dir="${build.dist}" />
+		
+		<!-- Make the log directory -->
+		<mkdir dir="${build.logs}" />
+		
+		<!-- Define log file -->
+		<record name="${build.logs}${file.separator}${build.logs.ant}" />
+		
+		<!-- Create the time stamp -->
+		<tstamp>
+			<format property="build.date" timezone="UTC" pattern="MM/dd/yy hh:mmaa" />
+		</tstamp>
+		
+		<!-- Combine the version parts into full version identifier -->
+		<property name="project.version" value="${project.version.major}.${project.version.minor}.${project.version.build}"/>
+		
+		<echo message="Finished: Environment Preparation"/>
+	</target>
+	
+	<target name="release" depends="prepare,testVarScoper,testMXUnit" description="Tags a release">
+		<echo message="Starting: Release of version ${project.version}" />
+		
+		<!-- Start a release branch -->
+		<git command="flow" dir="${basedir}">
+			<args>
+				<arg value="release" />
+				<arg value="start" />
+				<arg value="v${project.version}" />
+			</args>
+		</git>
+		
+		<!-- Update the release version number -->
+		<replaceregexp file="${basedir}/version.json"
+			match="&#34;version&#34;: &#34;[0-9\.]*&#34;"
+			replace="&#34;version&#34;: &#34;${project.version}&#34;"
+			byline="true"/>
+		
+		<!-- Update the download version number -->
+		<replaceregexp file="${basedir}/version.json"
+			match="tarball/[0-9\.]*&#34;"
+			replace="tarball/${project.version}&#34;"
+			byline="true"
+			/>
+		
+		<!-- Finish a release branch -->
+		<git command="commit" dir="${basedir}">
+			<args>
+				<arg value="-a" />
+				<arg value="-m 'Updated version files for release'" />
+			</args>
+		</git>
+		
+		<!-- Finish a release branch -->
+		<git command="flow" dir="${basedir}">
+			<args>
+				<arg value="release" />
+				<arg value="finish" />
+				<arg value="v${project.version}" />
+				<arg value="-m 'Tagging version v${project.version}'" />
+			</args>
+		</git>
+		
+		<!-- Update the build version -->
+		<propertyfile file="${build}/settings/version.properties" comment="Version properties">
+			<entry key="project.version.build" value="1" operation="+" type="int"/>
+		</propertyfile>
+		
+		<antcall target="versionChanged" inheritall="false" inheritrefs="false"></antcall>
+		
+		<!-- Commit the updated version files -->
+		<git command="commit" dir="${basedir}">
+			<args>
+				<arg value="-a" />
+				<arg value="-m 'Updated version properties for next release'" />
+			</args>
+		</git>
+		
+		<echo message="Finished: Release of version ${project.version}"/>
+	</target>
+	
+	<target name="testMXUnit" depends="prepare" description="Runs the Unit Tests">
+		<echo message="Starting: Unit Tests"/>
+		
+		<!-- Make the unit test directory -->
+		<mkdir dir="${build.dist}/unit" />
+		
+		<!-- Load ANT tasks -->
+		<taskdef name="mxunittask" classname="org.mxunit.ant.MXUnitAntTask" classpath="${build.lib}${file.separator}${build.lib.jar.mxunit}" />
+		
+		<mxunittask server="${test.host}" port="${test.port}" outputdir="${build.dist}/unit" defaultrunner="${test.mxunit.defaultrunner}" errorproperty="test.mxunit.error" failureproperty="test.mxunit.failure" verbose="true">
+			<directory path="${basedir}/test" componentPath="${test.mxunit.componentpath}" recurse="true" />
+		</mxunittask>
+		
+		<echo message="Finished: Unit Tests"/>
+	</target>
+	
+	<target name="testVarScoper" depends="prepare" description="Runs the varScoper">
+		<echo message="Starting: VarScoper Tests"/>
+		
+		<!-- Save the results as a csv -->
+		<get dest="${test.varscoper.resultFile}" src="http://${test.host}:${test.port}${test.varscoper.base}/varScoper.cfm?displayformat=csv&amp;filePath=${test.varscoper.filePath}&amp;recursiveDirectory=${test.varscoper.recurse}"/>
+		
+		<loadfile srcfile="${test.varscoper.resultFile}" property="test.varscoper.csv">
+			<filterchain>
+				<headfilter skip="1"/>
+				
+				<trim/>
+			</filterchain>
+		</loadfile>
+		
+		<!-- Remove the csv file -->
+		<delete file="${test.varscoper.resultFile}"/>
+		
+		<!-- Fail the build if there are any violations of the var scoping -->
+		<fail message="Var Scope Violation: ${line.separator}${test.varscoper.csv}">
+			<condition>
+				<isset property="test.varscoper.csv"/>
+			</condition>
+		</fail>
+		
+		<echo message="Finished: VarScoper Tests"/>
+	</target>
+	
+	<!-- Done in separate call since it required reading in updated property files -->
+	<target name="versionChanged">
+		<echo message="Starting: Version Changed" />
+		
+		<property file="${basedir}/build/settings/project.properties"/>
+		<property file="${basedir}/build/settings/version.properties"/>
+		
+		<!-- Combine the version parts into full version identifier -->
+		<property name="project.version" value="${project.version.major}.${project.version.minor}.${project.version.build}"/>
+		
+		<!-- Update the version number for future development -->
+		<replaceregexp file="${project.key}/config/${project.key}.json.cfm"
+			match="&#34;version&#34;: &#34;[0-9\.]*&#34;"
+			replace="&#34;version&#34;: &#34;${project.version}&#34;"
+			byline="true"/>
+		
+		<echo message="Finished: Version Changed"/>
+	</target>
+	
+	<target name="versionNextMajor" description="Increment the version to the next major point number">
+		<echo message="Starting: Increment To Next Major Point"/>
+		
+		<propertyfile file="${build}/settings/version.properties" comment="Version properties">
+			<entry key="project.version.major" value="1" operation="+" type="int"/>
+			<entry key="project.version.minor" value="0" type="int"/>
+			<entry key="project.version.build" value="0" type="int"/>
+		</propertyfile>
+		
+		<antcall target="versionChanged" inheritall="false" inheritrefs="false"></antcall>
+		
+		<echo message="Finished: Increment To Next Major Point"/>
+	</target>
+	
+	<target name="versionNextMinor" description="Increment the version to the next minor point number">
+		<echo message="Starting: Increment To Next Minor Point"/>
+		
+		<propertyfile file="${build}/settings/version.properties" comment="Version properties">
+			<entry key="project.version.minor" value="1" operation="+" type="int"/>
+			<entry key="project.version.build" value="0" type="int"/>
+		</propertyfile>
+		
+		<antcall target="versionChanged" inheritall="false" inheritrefs="false"></antcall>
+		
+		<echo message="Finished: Increment To Next Minor Point"/>
+	</target>
+	
+	<macrodef name="git">
+		<attribute name="command" />
+		<attribute name="dir" default="" />
+		<element name="args" optional="true" />
+		
+		<sequential>
+			<echo message="git @{command}" />
+			
+			<exec executable="git" dir="@{dir}" failonerror="true">
+				<arg value="@{command}" />
+				<args/>
+			</exec>
+		</sequential>
+	</macrodef>
+</project>
