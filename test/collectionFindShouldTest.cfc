@@ -56,18 +56,88 @@ component extends="test.base" {
 		assertEquals(3, structCount(results[1]));
 	}
 	
-	public void function testSucceedWithQuerySimple() {
+	public void function testSucceedWithQueryOperatorAll() {
+		var i = '';
 		var results = '';
 		
-		variables.collection.insert({ 'test': 'working' });
-		variables.collection.insert({ 'test': 'not working' });
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'test': [i, i+1, i+2, i+3, i+4] });
+		}
 		
-		results = variables.collection.find({ 'test': 'working' }).toArray();
+		results = variables.collection.find({ 'test': { '$all': [ 3, 4 ] } }).toArray();
+		
+		assertEquals(3, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorElemMatch() {
+		var results = '';
+		
+		variables.collection.insert({
+			'foo': [
+				{
+					'shape': 'square',
+					'color': 'purple',
+					'thick': false
+				},
+				{
+					'shape': 'circle',
+					'color': 'red',
+					'thick': true
+				}
+			]
+		});
+		
+		variables.collection.insert({
+			'foo': [
+				{
+					'shape': 'square',
+					'color': 'red',
+					'thick': true
+				},
+				{
+					'shape': 'circle',
+					'color': 'purple',
+					'thick': false
+				}
+			]
+		});
+		
+		results = variables.collection.find({ 'foo': {'$elemMatch': { 'shape': 'square', 'color': 'purple'} } }).toArray();
 		
 		assertEquals(1, arrayLen(results));
 	}
 	
-	public void function testSucceedWithQueryGreaterThan() {
+	public void function testSucceedWithQueryOperatorExistsFalse() {
+		var i = '';
+		var results = '';
+		
+		variables.collection.insert({ 'test': 'something' });
+		variables.collection.insert({ 'ordeal': 'something' });
+		variables.collection.insert({ 'mass': 'solid' });
+		variables.collection.insert({ 'pressure': 'something' });
+		variables.collection.insert({ 'taste': 'something', 'ordeal': 'quite' });
+		
+		results = variables.collection.find({ 'ordeal': { '$exists': false } }).toArray();
+		
+		assertEquals(3, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorExistsTrue() {
+		var i = '';
+		var results = '';
+		
+		variables.collection.insert({ 'test': 'something' });
+		variables.collection.insert({ 'ordeal': 'something' });
+		variables.collection.insert({ 'mass': 'solid' });
+		variables.collection.insert({ 'pressure': 'something' });
+		variables.collection.insert({ 'taste': 'something', 'ordeal': 'quite' });
+		
+		results = variables.collection.find({ 'ordeal': { '$exists': true } }).toArray();
+		
+		assertEquals(2, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorGreaterThan() {
 		var i = '';
 		var results = '';
 		
@@ -80,7 +150,33 @@ component extends="test.base" {
 		assertEquals(5, arrayLen(results));
 	}
 	
-	public void function testSucceedWithQueryLessThan() {
+	public void function testSucceedWithQueryOperatorGreaterThanEqualTo() {
+		var i = '';
+		var results = '';
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'test': i });
+		}
+		
+		results = variables.collection.find({ 'test': { '$gte': 5 } }).toArray();
+		
+		assertEquals(6, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorIn() {
+		var i = '';
+		var results = '';
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'test': i });
+		}
+		
+		results = variables.collection.find({ 'test': { '$in': [ 3, 5, 7 ] } }).toArray();
+		
+		assertEquals(3, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorLessThan() {
 		var i = '';
 		var results = '';
 		
@@ -93,8 +189,108 @@ component extends="test.base" {
 		assertEquals(4, arrayLen(results));
 	}
 	
+	public void function testSucceedWithQueryOperatorLessThanEqualTo() {
+		var i = '';
+		var results = '';
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'test': i });
+		}
+		
+		results = variables.collection.find({ 'test': { '$lte': 5 } }).toArray();
+		
+		assertEquals(5, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorMod() {
+		var i = '';
+		var results = '';
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'test': i });
+		}
+		
+		results = variables.collection.find({ 'test': { '$mod': [ 2, 1 ] } }).toArray();
+		
+		assertEquals(5, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorNotEquals() {
+		var i = '';
+		var results = '';
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'test': i });
+		}
+		
+		results = variables.collection.find({ 'test': { '$ne': 5 } }).toArray();
+		
+		assertEquals(9, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorNot() {
+		var i = '';
+		var results = '';
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'test': i });
+		}
+		
+		results = variables.collection.find({ 'test': { '$not': { '$gt': 4 } } }).toArray();
+		
+		assertEquals(4, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorNotIn() {
+		var i = '';
+		var results = '';
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'test': i });
+		}
+		
+		results = variables.collection.find({ 'test': { '$nin': [ 3, 5, 7 ] } }).toArray();
+		
+		assertEquals(7, arrayLen(results));
+	}
+	
 	/** Not implemented as of mongodb java driver 1.2
-	public void function testSucceedWithQuerySliceWithNegative() {
+	public void function testSucceedWithQueryOperatorOr() {
+		var i = '';
+		var results = '';
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'test': i });
+		}
+		
+		results = variables.collection.find({ 'test': { '$or': [ { 'test': 2 }, { 'test': 5 } ] } }).toArray();
+		
+		assertEquals(2, arrayLen(results));
+	}
+	*/
+	
+	public void function testSucceedWithQueryOperatorSize() {
+		var i = '';
+		var results = '';
+		
+		variables.collection.insert({ 'test': [ 1 ] });
+		variables.collection.insert({ 'test': [ 1, 2 ] });
+		variables.collection.insert({ 'test': [ 1, 2 ] });
+		variables.collection.insert({ 'test': [ 1, 2, 3 ] });
+		variables.collection.insert({ 'test': [ 1, 2, 3 ] });
+		variables.collection.insert({ 'test': [ 1, 2, 3 ] });
+		variables.collection.insert({ 'test': [ 1, 2, 3, 4 ] });
+		variables.collection.insert({ 'test': [ 1, 2, 3, 4 ] });
+		variables.collection.insert({ 'test': [ 1, 2, 3, 4 ] });
+		variables.collection.insert({ 'test': [ 1, 2, 3, 4 ] });
+		
+		results = variables.collection.find({ 'test': { '$size': 3 } }).toArray();
+		
+		assertEquals(3, arrayLen(results));
+	}
+	
+	/** Not implemented as of mongodb java driver 1.2
+	public void function testSucceedWithQueryOperatorSliceWithNegative() {
 		var results = '';
 		
 		variables.collection.insert({
@@ -107,7 +303,7 @@ component extends="test.base" {
 		assertEquals([1, 2, 3], results[1].x);
 	}
 	
-	public void function testSucceedWithQuerySliceWithPositive() {
+	public void function testSucceedWithQueryOperatorSliceWithPositive() {
 		var results = '';
 		
 		variables.collection.insert({
@@ -120,7 +316,7 @@ component extends="test.base" {
 		assertEquals([-3, -2, -1], results[1].x);
 	}
 	
-	public void function testSucceedWithQuerySliceWithRangePositivePositive() {
+	public void function testSucceedWithQueryOperatorSliceWithRangePositivePositive() {
 		var results = '';
 		
 		variables.collection.insert({
@@ -133,7 +329,7 @@ component extends="test.base" {
 		assertEquals([2, 3, 4], results[1].x);
 	}
 	
-	public void function testSucceedWithQuerySliceWithRangeNegativePositive() {
+	public void function testSucceedWithQueryOperatorSliceWithRangeNegativePositive() {
 		var results = '';
 		
 		variables.collection.insert({
@@ -148,4 +344,83 @@ component extends="test.base" {
 		assertEquals([-5, -4, -3, -2, -1], results[1].x);
 	}
 	*/
+	
+	public void function testSucceedWithQueryOperatorValueInArray() {
+		var i = '';
+		var results = '';
+		
+		variables.collection.insert({ 'test': ['red', 'green', 'purple'] });
+		variables.collection.insert({ 'test': ['red', 'blue', 'green', 'purple'] });
+		variables.collection.insert({ 'test': ['green', 'purple'] });
+		variables.collection.insert({ 'test': ['red', 'blue'] });
+		
+		results = variables.collection.find({ 'test': 'blue' }).toArray();
+		
+		assertEquals(2, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorValueInEmbeddedObject() {
+		var results = '';
+		
+		variables.collection.insert({
+			'foo': [
+				{
+					'shape': 'triangle',
+					'color': 'purple'
+				}
+			]
+		});
+		
+		variables.collection.insert({
+			'foo': [
+				{
+					'shape': 'square',
+					'color': 'red'
+				},
+				{
+					'shape': 'octagon',
+					'color': 'green'
+				}
+			]
+		});
+		
+		variables.collection.insert({
+			'foo': [
+				{
+					'shape': 'circle',
+					'color': 'green'
+				}
+			]
+		});
+		
+		results = variables.collection.find({ 'foo.color': 'green'}).toArray();
+		
+		assertEquals(2, arrayLen(results));
+	}
+	
+	/** Not implemented as of mongodb java driver 1.2
+	public void function testSucceedWithQueryOperatorWhereGreaterThan() {
+		var i = '';
+		var results = '';
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'test': i });
+		}
+		
+		results = variables.collection.find({ '$where': 'test > 3' }).toArray();
+		
+		assertEquals(6, arrayLen(results));
+	}
+	*/
+	
+	public void function testSucceedWithQuerySimple() {
+		var results = '';
+		
+		variables.collection.insert({ 'test': 'working' });
+		variables.collection.insert({ 'test': 'not working' });
+		
+		results = variables.collection.find({ 'test': 'working' }).toArray();
+		
+		assertEquals(1, arrayLen(results));
+	}
 }
