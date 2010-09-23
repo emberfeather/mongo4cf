@@ -180,6 +180,10 @@ component {
 		return variables.collection.insert( dbObjects );
 	}
 	
+	public any function regex( required string expression, string modifiers = '' ) {
+		return variables.utility.regex( argumentCollection = arguments );
+	}
+	
 	public component function rename( required string name ) {
 		variables.collection.rename( arguments.name );
 		

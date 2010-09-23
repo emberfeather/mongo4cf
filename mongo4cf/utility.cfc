@@ -1,5 +1,7 @@
 component {
 	public component function init() {
+		variables.pattern = createObject('java', 'java.util.regex.Pattern');
+		
 		return this;
 	}
 	
@@ -20,6 +22,25 @@ component {
 		}
 		
 		return dbObject;
+	}
+	
+	public any function regex( required string expression, string modifiers = '' ) {
+		var flags = 0;
+		
+		// Check for modifiers
+		if(find('i', arguments.modifiers)) {
+			flags = bitOr( flags, variables.pattern.CASE_INSENSITIVE );
+		}
+		
+		if(find('m', arguments.modifiers)) {
+			flags = bitOr( flags, variables.pattern.MULTILINE );
+		}
+		
+		if(find('x', arguments.modifiers)) {
+			flags = bitOr( flags, variables.pattern.COMMENTS );
+		}
+		
+		return variables.pattern.compile( arguments.expression, flags );
 	}
 	
 	public any function toCFType(required any value ) {

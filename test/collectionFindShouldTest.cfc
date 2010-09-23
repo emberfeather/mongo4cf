@@ -269,6 +269,76 @@ component extends="test.base" {
 	}
 	*/
 	
+	public void function testSucceedWithQueryOperatorRegularExpressionFlagCaseInsensitive() {
+		var i = '';
+		var results = '';
+		
+		variables.collection.insert({ 'test': 'my2cents' });
+		variables.collection.insert({ 'test': 'bull2bear' });
+		variables.collection.insert({ 'test': 'my2monkies' });
+		variables.collection.insert({ 'test': 'my4mOnkies' });
+		variables.collection.insert({ 'test': 'your4monks' });
+		
+		results = variables.collection.find({ 'test': variables.collection.regex('monk', 'i') }).toArray();
+		assertEquals(3, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorRegularExpressionFlagExtended() {
+		var i = '';
+		var results = '';
+		
+		variables.collection.insert({ 'test': 'my2cents' });
+		variables.collection.insert({ 'test': 'bull2bear' });
+		variables.collection.insert({ 'test': 'my2monkies' });
+		variables.collection.insert({ 'test': 'my4mOnkies' });
+		variables.collection.insert({ 'test': 'your4monks' });
+		
+		results = variables.collection.find({ 'test': variables.collection.regex('n	k', 'x') }).toArray();
+		assertEquals(3, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorRegularExpressionFlagMultiline() {
+		var i = '';
+		var results = '';
+		
+		variables.collection.insert({ 'test': 'my' & chr(10) & '2cents' });
+		variables.collection.insert({ 'test': 'bulls' & chr(10) & '2bear' });
+		variables.collection.insert({ 'test': 'my' & chr(10) & '2monkies' });
+		variables.collection.insert({ 'test': 'my' & chr(10) & '4mOnkies' });
+		variables.collection.insert({ 'test': 'your' & chr(10) & '4monks' });
+		
+		results = variables.collection.find({ 'test': variables.collection.regex('s$', 'm') }).toArray();
+		assertEquals(5, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorRegularExpressionString() {
+		var i = '';
+		var results = '';
+		
+		variables.collection.insert({ 'test': 'my2cents' });
+		variables.collection.insert({ 'test': 'bull2bear' });
+		variables.collection.insert({ 'test': 'my2monkies' });
+		variables.collection.insert({ 'test': 'my4mOnkies' });
+		variables.collection.insert({ 'test': 'your4monks' });
+		
+		results = variables.collection.find({ 'test': variables.collection.regex('monk') }).toArray();
+		assertEquals(2, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorRegularExpressionWildcard() {
+		var i = '';
+		var results = '';
+		
+		variables.collection.insert({ 'test': 'my2cents' });
+		variables.collection.insert({ 'test': 'bull2bear' });
+		variables.collection.insert({ 'test': 'my2monkies' });
+		variables.collection.insert({ 'test': 'my4mOnkies' });
+		variables.collection.insert({ 'test': 'your4monks' });
+		
+		results = variables.collection.find({ 'test': variables.collection.regex('2.*s') }).toArray();
+		assertEquals(2, arrayLen(results));
+	}
+	
 	public void function testSucceedWithQueryOperatorSize() {
 		var i = '';
 		var results = '';
