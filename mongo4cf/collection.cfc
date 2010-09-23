@@ -181,7 +181,7 @@ component {
 	}
 	
 	public component function rename( required string name ) {
-		return variables.collection.rename( arguments.name );
+		variables.collection.rename( arguments.name );
 		
 		// Allow chaining
 		return this;
