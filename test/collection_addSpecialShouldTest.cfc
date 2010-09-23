@@ -9,10 +9,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 25; i++) {
-			variables.collection.insert({ 'test': i });
+			variables.collection.insert({ 'test' = i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$gt': 5 } })._addSpecial('$maxScan', 5).toArray();
+		results = variables.collection.find({ 'test' = { '$gt' = 5 } })._addSpecial('$maxScan', 5).toArray();
 		
 		assertEquals(5, arrayLen(results));
 	}
@@ -22,7 +22,7 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': i, 'something', 'else' });
+			variables.collection.insert({ 'test' = i, 'something', 'else' });
 		}
 		
 		results = variables.collection.find()._addSpecial('$returnKey', true).toArray();

@@ -6,7 +6,7 @@ component extends="test.base" {
 	public void function testSucceedWithBasicDocument() {
 		var result = '';
 		
-		variables.collection.insert({ 'test': 'working' });
+		variables.collection.insert({ 'test' = 'working' });
 		
 		result = variables.collection.findOne();
 		
@@ -17,10 +17,10 @@ component extends="test.base" {
 		var result = '';
 		
 		variables.collection.insert(
-			{ 'test': 'working1' },
-			{ 'test': 'working2' },
-			{ 'test': 'working3' },
-			{ 'test': 'working4' }
+			{ 'test' = 'working1' },
+			{ 'test' = 'working2' },
+			{ 'test' = 'working3' },
+			{ 'test' = 'working4' }
 		);
 		
 		assertEquals(4, variables.collection.getCount());
@@ -30,10 +30,10 @@ component extends="test.base" {
 		var result = '';
 		
 		variables.collection.insert([
-			{ 'test': 'working1' },
-			{ 'test': 'working2' },
-			{ 'test': 'working3' },
-			{ 'test': 'working4' }
+			{ 'test' = 'working1' },
+			{ 'test' = 'working2' },
+			{ 'test' = 'working3' },
+			{ 'test' = 'working4' }
 		]);
 		
 		assertEquals(4, variables.collection.getCount());

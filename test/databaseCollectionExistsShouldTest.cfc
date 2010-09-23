@@ -15,7 +15,7 @@ component extends="test.base" {
 		var collection = variables.db.getCollection('database_collectionExists');
 		
 		// Remove the collection
-		collection.insert({ 'test': 'truth' });
+		collection.insert({ 'test' = 'truth' });
 		
 		// Check if the collection exists
 		assertTrue(variables.db.collectionExists('database_collectionExists'));

@@ -8,7 +8,7 @@ component extends="test.base" {
 		variables.collection.dropIndexes();
 		
 		// Create a new index
-		variables.collection.createIndex({ 'i': 1 });
+		variables.collection.createIndex({ 'i' = 1 });
 		
 		// There will always be an index for _id
 		assertEquals(2, arrayLen(collection.getIndexInfo()));

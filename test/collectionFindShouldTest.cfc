@@ -6,7 +6,7 @@ component extends="test.base" {
 	public void function testSucceedWithOneDocument() {
 		var result = '';
 		
-		variables.collection.insert({ 'test': 'working' });
+		variables.collection.insert({ 'test' = 'working' });
 		
 		result = variables.collection.find().toArray();
 		
@@ -18,7 +18,7 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 0; i < 10; i++) {
-			variables.collection.insert({ 'test': 'working' });
+			variables.collection.insert({ 'test' = 'working' });
 		}
 		
 		results = variables.collection.find().toArray();
@@ -37,9 +37,9 @@ component extends="test.base" {
 	public void function testSucceedWithColumnSubset() {
 		var results = '';
 		
-		variables.collection.insert({ 'test': 'working', 'testing': 'is it?' });
+		variables.collection.insert({ 'test' = 'working', 'testing' = 'is it?' });
 		
-		results = variables.collection.find({}, { 'test': 1 }).toArray();
+		results = variables.collection.find({}, { 'test' = 1 }).toArray();
 		
 		// Always going to return the _id
 		assertEquals(2, structCount(results[1]));
@@ -48,9 +48,9 @@ component extends="test.base" {
 	public void function testSucceedWithColumnExclusion() {
 		var results = '';
 		
-		variables.collection.insert({ 'test': 'working', 'testing': 'is it?', 'other': true });
+		variables.collection.insert({ 'test' = 'working', 'testing' = 'is it?', 'other' = true });
 		
-		results = variables.collection.find({}, { 'test': 0 }).toArray();
+		results = variables.collection.find({}, { 'test' = 0 }).toArray();
 		
 		// Always going to return the _id
 		assertEquals(3, structCount(results[1]));
@@ -61,10 +61,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': [i, i+1, i+2, i+3, i+4] });
+			variables.collection.insert({ 'test' = [i, i+1, i+2, i+3, i+4] });
 		}
 		
-		results = variables.collection.find({ 'test': { '$all': [ 3, 4 ] } }).toArray();
+		results = variables.collection.find({ 'test' = { '$all' = [ 3, 4 ] } }).toArray();
 		
 		assertEquals(3, arrayLen(results));
 	}
@@ -73,36 +73,36 @@ component extends="test.base" {
 		var results = '';
 		
 		variables.collection.insert({
-			'foo': [
+			'foo' = [
 				{
-					'shape': 'square',
-					'color': 'purple',
-					'thick': false
+					'shape' = 'square',
+					'color' = 'purple',
+					'thick' = false
 				},
 				{
-					'shape': 'circle',
-					'color': 'red',
-					'thick': true
+					'shape' = 'circle',
+					'color' = 'red',
+					'thick' = true
 				}
 			]
 		});
 		
 		variables.collection.insert({
-			'foo': [
+			'foo' = [
 				{
-					'shape': 'square',
-					'color': 'red',
-					'thick': true
+					'shape' = 'square',
+					'color' = 'red',
+					'thick' = true
 				},
 				{
-					'shape': 'circle',
-					'color': 'purple',
-					'thick': false
+					'shape' = 'circle',
+					'color' = 'purple',
+					'thick' = false
 				}
 			]
 		});
 		
-		results = variables.collection.find({ 'foo': {'$elemMatch': { 'shape': 'square', 'color': 'purple'} } }).toArray();
+		results = variables.collection.find({ 'foo' = {'$elemMatch' = { 'shape' = 'square', 'color' = 'purple'} } }).toArray();
 		
 		assertEquals(1, arrayLen(results));
 	}
@@ -111,13 +111,13 @@ component extends="test.base" {
 		var i = '';
 		var results = '';
 		
-		variables.collection.insert({ 'test': 'something' });
-		variables.collection.insert({ 'ordeal': 'something' });
-		variables.collection.insert({ 'mass': 'solid' });
-		variables.collection.insert({ 'pressure': 'something' });
-		variables.collection.insert({ 'taste': 'something', 'ordeal': 'quite' });
+		variables.collection.insert({ 'test' = 'something' });
+		variables.collection.insert({ 'ordeal' = 'something' });
+		variables.collection.insert({ 'mass' = 'solid' });
+		variables.collection.insert({ 'pressure' = 'something' });
+		variables.collection.insert({ 'taste' = 'something', 'ordeal' = 'quite' });
 		
-		results = variables.collection.find({ 'ordeal': { '$exists': false } }).toArray();
+		results = variables.collection.find({ 'ordeal' = { '$exists' = false } }).toArray();
 		
 		assertEquals(3, arrayLen(results));
 	}
@@ -126,13 +126,13 @@ component extends="test.base" {
 		var i = '';
 		var results = '';
 		
-		variables.collection.insert({ 'test': 'something' });
-		variables.collection.insert({ 'ordeal': 'something' });
-		variables.collection.insert({ 'mass': 'solid' });
-		variables.collection.insert({ 'pressure': 'something' });
-		variables.collection.insert({ 'taste': 'something', 'ordeal': 'quite' });
+		variables.collection.insert({ 'test' = 'something' });
+		variables.collection.insert({ 'ordeal' = 'something' });
+		variables.collection.insert({ 'mass' = 'solid' });
+		variables.collection.insert({ 'pressure' = 'something' });
+		variables.collection.insert({ 'taste' = 'something', 'ordeal' = 'quite' });
 		
-		results = variables.collection.find({ 'ordeal': { '$exists': true } }).toArray();
+		results = variables.collection.find({ 'ordeal' = { '$exists' = true } }).toArray();
 		
 		assertEquals(2, arrayLen(results));
 	}
@@ -142,10 +142,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': i });
+			variables.collection.insert({ 'test' = i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$gt': 5 } }).toArray();
+		results = variables.collection.find({ 'test' = { '$gt' = 5 } }).toArray();
 		
 		assertEquals(5, arrayLen(results));
 	}
@@ -155,10 +155,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': i });
+			variables.collection.insert({ 'test' = i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$gte': 5 } }).toArray();
+		results = variables.collection.find({ 'test' = { '$gte' = 5 } }).toArray();
 		
 		assertEquals(6, arrayLen(results));
 	}
@@ -168,10 +168,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': i });
+			variables.collection.insert({ 'test' = i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$in': [ 3, 5, 7 ] } }).toArray();
+		results = variables.collection.find({ 'test' = { '$in' = [ 3, 5, 7 ] } }).toArray();
 		
 		assertEquals(3, arrayLen(results));
 	}
@@ -181,10 +181,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': i });
+			variables.collection.insert({ 'test' = i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$lt': 5 } }).toArray();
+		results = variables.collection.find({ 'test' = { '$lt' = 5 } }).toArray();
 		
 		assertEquals(4, arrayLen(results));
 	}
@@ -194,10 +194,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': i });
+			variables.collection.insert({ 'test' = i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$lte': 5 } }).toArray();
+		results = variables.collection.find({ 'test' = { '$lte' = 5 } }).toArray();
 		
 		assertEquals(5, arrayLen(results));
 	}
@@ -207,10 +207,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': i });
+			variables.collection.insert({ 'test' = i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$mod': [ 2, 1 ] } }).toArray();
+		results = variables.collection.find({ 'test' = { '$mod' = [ 2, 1 ] } }).toArray();
 		
 		assertEquals(5, arrayLen(results));
 	}
@@ -220,10 +220,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': i });
+			variables.collection.insert({ 'test' = i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$ne': 5 } }).toArray();
+		results = variables.collection.find({ 'test' = { '$ne' = 5 } }).toArray();
 		
 		assertEquals(9, arrayLen(results));
 	}
@@ -233,10 +233,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': i });
+			variables.collection.insert({ 'test' = i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$not': { '$gt': 4 } } }).toArray();
+		results = variables.collection.find({ 'test' = { '$not' = { '$gt' = 4 } } }).toArray();
 		
 		assertEquals(4, arrayLen(results));
 	}
@@ -246,10 +246,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': i });
+			variables.collection.insert({ 'test' = i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$nin': [ 3, 5, 7 ] } }).toArray();
+		results = variables.collection.find({ 'test' = { '$nin' = [ 3, 5, 7 ] } }).toArray();
 		
 		assertEquals(7, arrayLen(results));
 	}
@@ -260,10 +260,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': i });
+			variables.collection.insert({ 'test' = i });
 		}
 		
-		results = variables.collection.find({ 'test': { '$or': [ { 'test': 2 }, { 'test': 5 } ] } }).toArray();
+		results = variables.collection.find({ 'test' = { '$or' = [ { 'test' = 2 }, { 'test' = 5 } ] } }).toArray();
 		
 		assertEquals(2, arrayLen(results));
 	}
@@ -273,13 +273,13 @@ component extends="test.base" {
 		var i = '';
 		var results = '';
 		
-		variables.collection.insert({ 'test': 'my2cents' });
-		variables.collection.insert({ 'test': 'bull2bear' });
-		variables.collection.insert({ 'test': 'my2monkies' });
-		variables.collection.insert({ 'test': 'my4mOnkies' });
-		variables.collection.insert({ 'test': 'your4monks' });
+		variables.collection.insert({ 'test' = 'my2cents' });
+		variables.collection.insert({ 'test' = 'bull2bear' });
+		variables.collection.insert({ 'test' = 'my2monkies' });
+		variables.collection.insert({ 'test' = 'my4mOnkies' });
+		variables.collection.insert({ 'test' = 'your4monks' });
 		
-		results = variables.collection.find({ 'test': variables.collection.regex('monk', 'i') }).toArray();
+		results = variables.collection.find({ 'test' = variables.collection.regex('monk', 'i') }).toArray();
 		assertEquals(3, arrayLen(results));
 	}
 	
@@ -287,13 +287,13 @@ component extends="test.base" {
 		var i = '';
 		var results = '';
 		
-		variables.collection.insert({ 'test': 'my2cents' });
-		variables.collection.insert({ 'test': 'bull2bear' });
-		variables.collection.insert({ 'test': 'my2monkies' });
-		variables.collection.insert({ 'test': 'my4mOnkies' });
-		variables.collection.insert({ 'test': 'your4monks' });
+		variables.collection.insert({ 'test' = 'my2cents' });
+		variables.collection.insert({ 'test' = 'bull2bear' });
+		variables.collection.insert({ 'test' = 'my2monkies' });
+		variables.collection.insert({ 'test' = 'my4mOnkies' });
+		variables.collection.insert({ 'test' = 'your4monks' });
 		
-		results = variables.collection.find({ 'test': variables.collection.regex('n	k', 'x') }).toArray();
+		results = variables.collection.find({ 'test' = variables.collection.regex('n	k', 'x') }).toArray();
 		assertEquals(3, arrayLen(results));
 	}
 	
@@ -301,13 +301,13 @@ component extends="test.base" {
 		var i = '';
 		var results = '';
 		
-		variables.collection.insert({ 'test': 'my' & chr(10) & '2cents' });
-		variables.collection.insert({ 'test': 'bulls' & chr(10) & '2bear' });
-		variables.collection.insert({ 'test': 'my' & chr(10) & '2monkies' });
-		variables.collection.insert({ 'test': 'my' & chr(10) & '4mOnkies' });
-		variables.collection.insert({ 'test': 'your' & chr(10) & '4monks' });
+		variables.collection.insert({ 'test' = 'my' & chr(10) & '2cents' });
+		variables.collection.insert({ 'test' = 'bulls' & chr(10) & '2bear' });
+		variables.collection.insert({ 'test' = 'my' & chr(10) & '2monkies' });
+		variables.collection.insert({ 'test' = 'my' & chr(10) & '4mOnkies' });
+		variables.collection.insert({ 'test' = 'your' & chr(10) & '4monks' });
 		
-		results = variables.collection.find({ 'test': variables.collection.regex('s$', 'm') }).toArray();
+		results = variables.collection.find({ 'test' = variables.collection.regex('s$', 'm') }).toArray();
 		assertEquals(5, arrayLen(results));
 	}
 	
@@ -315,13 +315,13 @@ component extends="test.base" {
 		var i = '';
 		var results = '';
 		
-		variables.collection.insert({ 'test': 'my2cents' });
-		variables.collection.insert({ 'test': 'bull2bear' });
-		variables.collection.insert({ 'test': 'my2monkies' });
-		variables.collection.insert({ 'test': 'my4mOnkies' });
-		variables.collection.insert({ 'test': 'your4monks' });
+		variables.collection.insert({ 'test' = 'my2cents' });
+		variables.collection.insert({ 'test' = 'bull2bear' });
+		variables.collection.insert({ 'test' = 'my2monkies' });
+		variables.collection.insert({ 'test' = 'my4mOnkies' });
+		variables.collection.insert({ 'test' = 'your4monks' });
 		
-		results = variables.collection.find({ 'test': variables.collection.regex('monk') }).toArray();
+		results = variables.collection.find({ 'test' = variables.collection.regex('monk') }).toArray();
 		assertEquals(2, arrayLen(results));
 	}
 	
@@ -329,13 +329,13 @@ component extends="test.base" {
 		var i = '';
 		var results = '';
 		
-		variables.collection.insert({ 'test': 'my2cents' });
-		variables.collection.insert({ 'test': 'bull2bear' });
-		variables.collection.insert({ 'test': 'my2monkies' });
-		variables.collection.insert({ 'test': 'my4mOnkies' });
-		variables.collection.insert({ 'test': 'your4monks' });
+		variables.collection.insert({ 'test' = 'my2cents' });
+		variables.collection.insert({ 'test' = 'bull2bear' });
+		variables.collection.insert({ 'test' = 'my2monkies' });
+		variables.collection.insert({ 'test' = 'my4mOnkies' });
+		variables.collection.insert({ 'test' = 'your4monks' });
 		
-		results = variables.collection.find({ 'test': variables.collection.regex('2.*s') }).toArray();
+		results = variables.collection.find({ 'test' = variables.collection.regex('2.*s') }).toArray();
 		assertEquals(2, arrayLen(results));
 	}
 	
@@ -343,18 +343,18 @@ component extends="test.base" {
 		var i = '';
 		var results = '';
 		
-		variables.collection.insert({ 'test': [ 1 ] });
-		variables.collection.insert({ 'test': [ 1, 2 ] });
-		variables.collection.insert({ 'test': [ 1, 2 ] });
-		variables.collection.insert({ 'test': [ 1, 2, 3 ] });
-		variables.collection.insert({ 'test': [ 1, 2, 3 ] });
-		variables.collection.insert({ 'test': [ 1, 2, 3 ] });
-		variables.collection.insert({ 'test': [ 1, 2, 3, 4 ] });
-		variables.collection.insert({ 'test': [ 1, 2, 3, 4 ] });
-		variables.collection.insert({ 'test': [ 1, 2, 3, 4 ] });
-		variables.collection.insert({ 'test': [ 1, 2, 3, 4 ] });
+		variables.collection.insert({ 'test' = [ 1 ] });
+		variables.collection.insert({ 'test' = [ 1, 2 ] });
+		variables.collection.insert({ 'test' = [ 1, 2 ] });
+		variables.collection.insert({ 'test' = [ 1, 2, 3 ] });
+		variables.collection.insert({ 'test' = [ 1, 2, 3 ] });
+		variables.collection.insert({ 'test' = [ 1, 2, 3 ] });
+		variables.collection.insert({ 'test' = [ 1, 2, 3, 4 ] });
+		variables.collection.insert({ 'test' = [ 1, 2, 3, 4 ] });
+		variables.collection.insert({ 'test' = [ 1, 2, 3, 4 ] });
+		variables.collection.insert({ 'test' = [ 1, 2, 3, 4 ] });
 		
-		results = variables.collection.find({ 'test': { '$size': 3 } }).toArray();
+		results = variables.collection.find({ 'test' = { '$size' = 3 } }).toArray();
 		
 		assertEquals(3, arrayLen(results));
 	}
@@ -364,11 +364,11 @@ component extends="test.base" {
 		var results = '';
 		
 		variables.collection.insert({
-			'test': 'something',
-			'x': [ 1, 2, 3, 4, 5, -5, -4, -3, -2, -1 ]
+			'test' = 'something',
+			'x' = [ 1, 2, 3, 4, 5, -5, -4, -3, -2, -1 ]
 		});
 		
-		results = variables.collection.find({ 'x': { '$slice': -3 } }).toArray();
+		results = variables.collection.find({ 'x' = { '$slice' = -3 } }).toArray();
 		
 		assertEquals([1, 2, 3], results[1].x);
 	}
@@ -377,11 +377,11 @@ component extends="test.base" {
 		var results = '';
 		
 		variables.collection.insert({
-			'test': 'something',
-			'x': [ 1, 2, 3, 4, 5, -5, -4, -3, -2, -1 ]
+			'test' = 'something',
+			'x' = [ 1, 2, 3, 4, 5, -5, -4, -3, -2, -1 ]
 		});
 		
-		results = variables.collection.find({ 'x': { '$slice': 3 } }).toArray();
+		results = variables.collection.find({ 'x' = { '$slice' = 3 } }).toArray();
 		
 		assertEquals([-3, -2, -1], results[1].x);
 	}
@@ -390,11 +390,11 @@ component extends="test.base" {
 		var results = '';
 		
 		variables.collection.insert({
-			'test': 'something',
-			'x': [ 1, 2, 3, 4, 5, -5, -4, -3, -2, -1 ]
+			'test' = 'something',
+			'x' = [ 1, 2, 3, 4, 5, -5, -4, -3, -2, -1 ]
 		});
 		
-		results = variables.collection.find({ 'x': { '$slice': [2, 3] } }).toArray();
+		results = variables.collection.find({ 'x' = { '$slice' = [2, 3] } }).toArray();
 		
 		assertEquals([2, 3, 4], results[1].x);
 	}
@@ -403,14 +403,14 @@ component extends="test.base" {
 		var results = '';
 		
 		variables.collection.insert({
-			'test': 'something',
-			'x': [ 1, 2, 3, 4, 5, -5, -4, -3, -2, -1 ]
+			'test' = 'something',
+			'x' = [ 1, 2, 3, 4, 5, -5, -4, -3, -2, -1 ]
 		});
 		
-		results = variables.collection.find({ 'x': { '$slice': [-5, 4] } }).toArray();
+		results = variables.collection.find({ 'x' = { '$slice' = [-5, 4] } }).toArray();
 		assertEquals([-5, -4, -3, -2], results[1].x);
 		
-		results = variables.collection.find({ 'x': { '$slice': [-5, 20] } }).toArray();
+		results = variables.collection.find({ 'x' = { '$slice' = [-5, 20] } }).toArray();
 		assertEquals([-5, -4, -3, -2, -1], results[1].x);
 	}
 	*/
@@ -419,12 +419,12 @@ component extends="test.base" {
 		var i = '';
 		var results = '';
 		
-		variables.collection.insert({ 'test': ['red', 'green', 'purple'] });
-		variables.collection.insert({ 'test': ['red', 'blue', 'green', 'purple'] });
-		variables.collection.insert({ 'test': ['green', 'purple'] });
-		variables.collection.insert({ 'test': ['red', 'blue'] });
+		variables.collection.insert({ 'test' = ['red', 'green', 'purple'] });
+		variables.collection.insert({ 'test' = ['red', 'blue', 'green', 'purple'] });
+		variables.collection.insert({ 'test' = ['green', 'purple'] });
+		variables.collection.insert({ 'test' = ['red', 'blue'] });
 		
-		results = variables.collection.find({ 'test': 'blue' }).toArray();
+		results = variables.collection.find({ 'test' = 'blue' }).toArray();
 		
 		assertEquals(2, arrayLen(results));
 	}
@@ -433,37 +433,37 @@ component extends="test.base" {
 		var results = '';
 		
 		variables.collection.insert({
-			'foo': [
+			'foo' = [
 				{
-					'shape': 'triangle',
-					'color': 'purple'
+					'shape' = 'triangle',
+					'color' = 'purple'
 				}
 			]
 		});
 		
 		variables.collection.insert({
-			'foo': [
+			'foo' = [
 				{
-					'shape': 'square',
-					'color': 'red'
+					'shape' = 'square',
+					'color' = 'red'
 				},
 				{
-					'shape': 'octagon',
-					'color': 'green'
+					'shape' = 'octagon',
+					'color' = 'green'
 				}
 			]
 		});
 		
 		variables.collection.insert({
-			'foo': [
+			'foo' = [
 				{
-					'shape': 'circle',
-					'color': 'green'
+					'shape' = 'circle',
+					'color' = 'green'
 				}
 			]
 		});
 		
-		results = variables.collection.find({ 'foo.color': 'green'}).toArray();
+		results = variables.collection.find({ 'foo.color' = 'green'}).toArray();
 		
 		assertEquals(2, arrayLen(results));
 	}
@@ -474,10 +474,10 @@ component extends="test.base" {
 		var results = '';
 		
 		for(i = 1; i <= 10; i++) {
-			variables.collection.insert({ 'test': i });
+			variables.collection.insert({ 'test' = i });
 		}
 		
-		results = variables.collection.find({ '$where': 'test > 3' }).toArray();
+		results = variables.collection.find({ '$where' = 'test > 3' }).toArray();
 		
 		assertEquals(6, arrayLen(results));
 	}
@@ -486,10 +486,10 @@ component extends="test.base" {
 	public void function testSucceedWithQuerySimple() {
 		var results = '';
 		
-		variables.collection.insert({ 'test': 'working' });
-		variables.collection.insert({ 'test': 'not working' });
+		variables.collection.insert({ 'test' = 'working' });
+		variables.collection.insert({ 'test' = 'not working' });
 		
-		results = variables.collection.find({ 'test': 'working' }).toArray();
+		results = variables.collection.find({ 'test' = 'working' }).toArray();
 		
 		assertEquals(1, arrayLen(results));
 	}
