@@ -184,6 +184,10 @@ component {
 		return variables.utility.regex( argumentCollection = arguments );
 	}
 	
+	public void function remove( required struct doc ) {
+		variables.collection.remove( variables.utility.createBasicDBObject( duplicate( arguments.doc ) ) );
+	}
+	
 	public component function rename( required string name ) {
 		variables.collection.rename( arguments.name );
 		
