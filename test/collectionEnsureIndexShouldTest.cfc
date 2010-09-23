@@ -11,6 +11,9 @@ component extends="test.base" {
 		
 		variables.collection.ensureIndex({ 'x' = 1 });
 		
+		// Do a search to make sure that the db is accessed
+		variables.collection.find();
+		
 		assertEquals( 2, arrayLen(variables.collection.getIndexInfo()) );
 	}
 	
