@@ -3,7 +3,7 @@ component {
 		variables.useJavaloader = !structKeyExists(server, 'railo');
 		
 		if(variables.useJavaloader) {
-			variables.javaloader = createObject('component','javaloader.javaloader').init([ expandPath('/mongo4cf/lib/mongo.jar') ]);
+			variables.javaloader = createObject('component','javaloader.JavaLoader').init([ expandPath('/mongo4cf/lib/mongo.jar') ]);
 		}
 		
 		return this;
