@@ -1,5 +1,6 @@
 component {
 	public component function init() {
+		variables.factory = createObject('component', 'mongo4cf.factory').init();
 		variables.pattern = createObject('java', 'java.util.regex.Pattern');
 		
 		return this;
@@ -9,7 +10,7 @@ component {
 	 * Used to recursively create a java BasicDBObject from a CF struct
 	 */
 	public any function createBasicDBObject(struct doc = {}) {
-		var dbObject = createObject('java', 'com.mongodb.BasicDBObject', '/mongo4cf/lib/mongo.jar').init();
+		var dbObject = getJavaObject('com.mongodb.BasicDBObject').init();
 		var key = '';
 		
 		for( key in arguments.doc ) {
@@ -22,6 +23,10 @@ component {
 		}
 		
 		return dbObject;
+	}
+	
+	public any function getJavaObject( required string definition ) {
+		return variables.factory.getJavaObject(arguments.definition);
 	}
 	
 	public any function regex( required string expression, string modifiers = '' ) {

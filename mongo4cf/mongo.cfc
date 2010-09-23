@@ -1,10 +1,11 @@
 component {
 	public component function init( string host = 'localhost', numeric port = 27017 ) {
+		variables.utility = createObject('component', 'mongo4cf.utility').init();
 		variables.host = arguments.host;
 		variables.port = arguments.port;
 		variables.databases = {};
 		
-		variables.mongo = createObject('java', 'com.mongodb.Mongo', '/mongo4cf/lib/mongo.jar').init(variables.host, variables.port);
+		variables.mongo = variables.utility.getJavaObject('com.mongodb.Mongo').init(variables.host, variables.port);
 		
 		return this;
 	}
