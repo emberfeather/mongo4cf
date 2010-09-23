@@ -8,12 +8,12 @@ component {
 	}
 	
 	public void function createIndex( required struct index ) {
-		variables.collection.createIndex( variables.utility.createBasicDBObject( duplicate( arguments.index ) ) );
+		variables.collection.createIndex( variables.utility.createBasicDBObject( arguments.index ) );
 	}
 	
 	public array function distinct( required string key, struct query ) {
 		if( structKeyExists(arguments, 'query') ) {
-			return variables.collection.distinct( arguments.key, variables.utility.createBasicDBObject( duplicate( arguments.query ) ) ).toArray();
+			return variables.collection.distinct( arguments.key, variables.utility.createBasicDBObject( arguments.query ) ).toArray();
 		}
 		
 		return variables.collection.distinct( arguments.key ).toArray();
@@ -25,7 +25,7 @@ component {
 	
 	public void function dropIndex( required any index ) {
 		if(isStruct(arguments.index)) {
-			variables.collection.dropIndex( variables.utility.createBasicDBObject( duplicate( arguments.index ) ) );
+			variables.collection.dropIndex( variables.utility.createBasicDBObject( arguments.index ) );
 		} else {
 			variables.collection.dropIndex( index );
 		}
@@ -43,16 +43,16 @@ component {
 		if(structKeyExists(arguments, 'options')) {
 			if(isStruct(arguments.options) and !structIsEmpty(arguments.options)) {
 				variables.collection.ensureIndex(
-					variables.utility.createBasicDBObject( duplicate( arguments.index ) ),
-					variables.utility.createBasicDBObject( duplicate( arguments.options ) )
+					variables.utility.createBasicDBObject( arguments.index ),
+					variables.utility.createBasicDBObject( arguments.options )
 				);
 			} else if(structKeyExists(arguments, 'unique')) {
-				variables.collection.ensureIndex( variables.utility.createBasicDBObject( duplicate( arguments.index ) ), arguments.options, arguments.unique );
+				variables.collection.ensureIndex( variables.utility.createBasicDBObject( arguments.index ), arguments.options, arguments.unique );
 			} else {
-				variables.collection.ensureIndex( variables.utility.createBasicDBObject( duplicate( arguments.index ) ), arguments.options );
+				variables.collection.ensureIndex( variables.utility.createBasicDBObject( arguments.index ), arguments.options );
 			}
 		} else {
-			variables.collection.ensureIndex( variables.utility.createBasicDBObject( duplicate( arguments.index ) ) );
+			variables.collection.ensureIndex( variables.utility.createBasicDBObject( arguments.index ) );
 		}
 	}
 	
@@ -69,28 +69,28 @@ component {
 				if(structKeyExists(arguments, 'numToSkip') and structKeyExists(arguments, 'batchSize')) {
 					if(structKeyExists(arguments, 'options')) {
 						results = variables.collection.find(
-							variables.utility.createBasicDBObject( duplicate( arguments.doc ) ),
-							variables.utility.createBasicDBObject( duplicate( arguments.keys ) ),
+							variables.utility.createBasicDBObject( arguments.doc ),
+							variables.utility.createBasicDBObject( arguments.keys ),
 							arguments.numToSkip,
 							arguments.batchSize,
-							variables.utility.createBasicDBObject( duplicate( arguments.options ) )
+							variables.utility.createBasicDBObject( arguments.options )
 						);
 					} else {
 						results = variables.collection.find(
-							variables.utility.createBasicDBObject( duplicate( arguments.doc ) ),
-							variables.utility.createBasicDBObject( duplicate( arguments.keys ) ),
+							variables.utility.createBasicDBObject( arguments.doc ),
+							variables.utility.createBasicDBObject( arguments.keys ),
 							arguments.numToSkip,
 							arguments.batchSize
 						);
 					}
 				} else {
 					results = variables.collection.find(
-						variables.utility.createBasicDBObject( duplicate( arguments.doc ) ),
-						variables.utility.createBasicDBObject( duplicate( arguments.keys ) )
+						variables.utility.createBasicDBObject( arguments.doc ),
+						variables.utility.createBasicDBObject( arguments.keys )
 					);
 				}
 			} else {
-				results = variables.collection.find( variables.utility.createBasicDBObject( duplicate( arguments.doc ) ) );
+				results = variables.collection.find( variables.utility.createBasicDBObject( arguments.doc ) );
 			}
 		} else {
 			results = variables.collection.find();
@@ -102,13 +102,13 @@ component {
 	public struct function findOne( any obj, struct fields ) {
 		if(structKeyExists(arguments, 'obj') && structKeyExists(arguments, 'fields')) {
 			if(isStruct(arguments.obj)) {
-				return variables.utility.toCFType(variables.collection.findOne( variables.utility.createBasicDBObject( duplicate( arguments.obj ) ), variables.utility.createBasicDBObject( duplicate( arguments.fields ) ) ));
+				return variables.utility.toCFType(variables.collection.findOne( variables.utility.createBasicDBObject( arguments.obj ), variables.utility.createBasicDBObject( arguments.fields ) ));
 			}
 			
-			return variables.utility.toCFType(variables.collection.findOne( arguments.obj, variables.utility.createBasicDBObject( duplicate( arguments.fields ) ) ));
+			return variables.utility.toCFType(variables.collection.findOne( arguments.obj, variables.utility.createBasicDBObject( arguments.fields ) ));
 		} else if(structKeyExists(arguments, 'obj')) {
 			if(isStruct(arguments.obj)) {
-				return variables.utility.toCFType(variables.collection.findOne( variables.utility.createBasicDBObject( duplicate( arguments.obj ) ) ) );
+				return variables.utility.toCFType(variables.collection.findOne( variables.utility.createBasicDBObject( arguments.obj ) ) );
 			}
 			
 			return variables.utility.toCFType(variables.collection.findOne( arguments.obj ) );
@@ -129,8 +129,8 @@ component {
 		if(structKeyExists(arguments, 'query')) {
 			if(structKeyExists(arguments, 'limit') && structKeyExists(arguments, 'skip')) {
 				return variables.collection.getCount(
-					variables.utility.createBasicDBObject( duplicate( arguments.index ) ),
-					variables.utility.createBasicDBObject( duplicate( arguments.fields ) ),
+					variables.utility.createBasicDBObject( arguments.index ),
+					variables.utility.createBasicDBObject( arguments.fields ),
 					arguments.limit,
 					arguments.skip
 				);
@@ -138,12 +138,12 @@ component {
 			
 			if(structKeyExists(arguments, 'fields')) {
 				return variables.collection.getCount(
-					variables.utility.createBasicDBObject( duplicate( arguments.index ) ),
-					variables.utility.createBasicDBObject( duplicate( arguments.fields ) )
+					variables.utility.createBasicDBObject( arguments.index ),
+					variables.utility.createBasicDBObject( arguments.fields )
 				);
 			}
 			
-			return variables.collection.getCount( variables.utility.createBasicDBObject( duplicate( arguments.query ) ) );
+			return variables.collection.getCount( variables.utility.createBasicDBObject( arguments.query ) );
 		}
 		
 		return variables.collection.getCount();
@@ -173,7 +173,7 @@ component {
 		}
 		
 		for(i = 1; i <= arrayLen(arguments.docs); i++) {
-			arrayAppend(dbObjects, variables.utility.createBasicDBObject( duplicate( arguments.docs[i] ) ))
+			arrayAppend(dbObjects, variables.utility.createBasicDBObject( arguments.docs[i] ))
 		}
 		
 		// Insert the generated db object
@@ -185,7 +185,7 @@ component {
 	}
 	
 	public void function remove( required struct doc ) {
-		variables.collection.remove( variables.utility.createBasicDBObject( duplicate( arguments.doc ) ) );
+		variables.collection.remove( variables.utility.createBasicDBObject( arguments.doc ) );
 	}
 	
 	public component function rename( required string name ) {

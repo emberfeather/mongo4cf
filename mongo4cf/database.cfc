@@ -21,7 +21,7 @@ component {
 	}
 	
 	public boolean function createCollection(required string collectionName, required struct options) {
-		var collection = variables.db.createCollection(arguments.collectionName, variables.utility.createBasicDBObject( duplicate( arguments.options ) ));
+		var collection = variables.db.createCollection(arguments.collectionName, variables.utility.createBasicDBObject( arguments.options ));
 		
 		return createObject('component', 'mongo4cf.collection').init(this, collection);
 	}
