@@ -195,6 +195,10 @@ component {
 		return this;
 	}
 	
+	public void function save( required struct doc ) {
+		variables.collection.save( variables.utility.createBasicDBObject( arguments.doc ) );
+	}
+	
 	public void function update( required struct query, required struct doc, boolean upsert, boolean multi ) {
 		if(structKeyExists(arguments, 'upsert') and structKeyExists(arguments, 'multi')) {
 			variables.collection.update(
