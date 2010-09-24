@@ -195,6 +195,21 @@ component {
 		return this;
 	}
 	
+	public void function update( required struct query, required struct doc, boolean upsert, boolean multi ) {
+		if(structKeyExists(arguments, 'upsert') and structKeyExists(arguments, 'multi')) {
+			variables.collection.update(
+				variables.utility.createBasicDBObject( arguments.query ),
+				variables.utility.createBasicDBObject( arguments.doc ),
+				arguments.upsert,
+				arguments.multi
+			);
+			
+			return;
+		}
+		
+		variables.collection.update( variables.utility.createBasicDBObject( arguments.query ), variables.utility.createBasicDBObject( arguments.doc ) );
+	}
+	
 	public string function _toString() {
 		return variables.collection.toString();
 	}
