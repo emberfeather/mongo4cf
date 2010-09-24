@@ -180,6 +180,10 @@ component {
 		return variables.collection.insert( dbObjects );
 	}
 	
+	public boolean function isCapped() {
+		return variables.collection.isCapped();
+	}
+	
 	public any function regex( required string expression, string modifiers = '' ) {
 		return variables.utility.regex( argumentCollection = arguments );
 	}
@@ -193,6 +197,25 @@ component {
 		
 		// Allow chaining
 		return this;
+	}
+	
+	public void function save( required struct doc ) {
+		variables.collection.save( variables.utility.createBasicDBObject( arguments.doc ) );
+	}
+	
+	public void function update( required struct query, required struct doc, boolean upsert, boolean multi ) {
+		if(structKeyExists(arguments, 'upsert') and structKeyExists(arguments, 'multi')) {
+			variables.collection.update(
+				variables.utility.createBasicDBObject( arguments.query ),
+				variables.utility.createBasicDBObject( arguments.doc ),
+				arguments.upsert,
+				arguments.multi
+			);
+			
+			return;
+		}
+		
+		variables.collection.update( variables.utility.createBasicDBObject( arguments.query ), variables.utility.createBasicDBObject( arguments.doc ) );
 	}
 	
 	public string function _toString() {
