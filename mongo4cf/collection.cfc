@@ -180,6 +180,10 @@ component {
 		return variables.collection.insert( dbObjects );
 	}
 	
+	public boolean function isCapped() {
+		return variables.collection.isCapped();
+	}
+	
 	public any function regex( required string expression, string modifiers = '' ) {
 		return variables.utility.regex( argumentCollection = arguments );
 	}
