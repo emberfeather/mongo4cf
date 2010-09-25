@@ -56,6 +56,17 @@ component extends="test.base" {
 		assertEquals(3, structCount(results[1]));
 	}
 	
+	public void function testSucceedWithQueryID() {
+		var results = '';
+		
+		variables.collection.insert({ '_id' = '8CDFB14B0B952854', 'test' = 12345 });
+		
+		results = variables.collection.find({ '_id' = '8CDFB14B0B952854' }).toArray();
+		
+		assertEquals(1, arrayLen(results));
+		assertEquals(12345, results[1].test);
+	}
+	
 	public void function testSucceedWithQueryOperatorAll() {
 		var i = '';
 		var results = '';
