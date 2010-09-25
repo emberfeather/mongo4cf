@@ -11,6 +11,6 @@ component extends="test.base" {
 		variables.collection.createIndex({ 'i' = 1 });
 		
 		// There will always be an index for _id
-		assertEquals(2, arrayLen(collection.getIndexInfo()));
+		assertEquals(2, arrayLen(variables.collection.getIndexInfo()));
 	}
 }
