@@ -20,10 +20,12 @@ component {
 		return variables.db.collectionExists(arguments.collectionName);
 	}
 	
-	public boolean function createCollection(required string collectionName, required struct options) {
+	public component function createCollection(required string collectionName, required struct options) {
 		var collection = variables.db.createCollection(arguments.collectionName, variables.utility.createBasicDBObject( arguments.options ));
 		
-		return createObject('component', 'mongo4cf.collection').init(this, collection);
+		variables.collections[arguments.collectionName] = createObject('component', 'mongo4cf.collection').init(this, collection);
+		
+		return variables.collections[arguments.collectionName];
 	}
 	
 	public void function dropDatabase() {
