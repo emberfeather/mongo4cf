@@ -63,7 +63,9 @@ component {
 			temp = {};
 			
 			for( i = 1; i <= arrayLen(keys); i++ ) {
-				temp[keys[i]] = toCFType(arguments.value[keys[i]]);
+				if( !isNull(arguments.value.get(keys[i]) )) {
+					temp[keys[i]] = toCFType(arguments.value[keys[i]]);
+				}
 			}
 			
 			return temp;
@@ -71,9 +73,13 @@ component {
 		
 		// Look for arrays
 		if( isArray(arguments.value) ) {
+			temp = [];
+			
 			for( i = 1; i <= arrayLen(arguments.value); i++ ) {
-				arguments.value[i] = toCFType(arguments.value[i]);
+				temp[i] = toCFType(arguments.value[i]);
 			}
+			
+			return temp;
 		}
 		
 		// Check for native java objects

@@ -157,6 +157,15 @@ component {
 		return variables.collection.getName();
 	}
 	
+	public array function group(required struct key, required struct cond, required struct initial, required string reduce) {
+		return variables.utility.toCFType( variables.collection.group(
+			variables.utility.createBasicDBObject( arguments.key ),
+			variables.utility.createBasicDBObject( arguments.cond ),
+			variables.utility.createBasicDBObject( arguments.initial ),
+			arguments.reduce
+		) );
+	}
+	
 	public any function insert(required any docs) {
 		var dbObjects = [];
 		var i = '';
