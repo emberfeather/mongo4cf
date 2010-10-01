@@ -203,7 +203,7 @@ component {
 		}
 		
 		for(i = 1; i <= arrayLen(arguments.docs); i++) {
-			arrayAppend(dbObjects, variables.utility.createBasicDBObject( arguments.docs[i] ))
+			arrayAppend(dbObjects, variables.utility.createBasicDBObject( arguments.docs[i] ));
 		}
 		
 		// Insert the generated db object
