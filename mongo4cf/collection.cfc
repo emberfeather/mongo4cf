@@ -41,7 +41,7 @@ component {
 	
 	public void function ensureIndex( required any index, any options, boolean unique ) {
 		if(structKeyExists(arguments, 'options')) {
-			if(isStruct(arguments.options) and !structIsEmpty(arguments.options)) {
+			if(isStruct(arguments.options) && !structIsEmpty(arguments.options)) {
 				variables.collection.ensureIndex(
 					variables.utility.createBasicDBObject( arguments.index ),
 					variables.utility.createBasicDBObject( arguments.options )
@@ -66,7 +66,7 @@ component {
 		// Find the documents
 		if(structKeyExists(arguments, 'doc')) {
 			if(structKeyExists(arguments, 'keys')) {
-				if(structKeyExists(arguments, 'numToSkip') and structKeyExists(arguments, 'batchSize')) {
+				if(structKeyExists(arguments, 'numToSkip') && structKeyExists(arguments, 'batchSize')) {
 					if(structKeyExists(arguments, 'options')) {
 						results = variables.collection.find(
 							variables.utility.createBasicDBObject( arguments.doc ),
@@ -97,6 +97,23 @@ component {
 		}
 		
 		return createObject('component', 'mongo4cf.cursor').init( results );
+	}
+	
+	public struct function findAndModify(required struct query, required struct doc1, struct doc2, boolean remove, struct doc3, boolean returnNew, boolean upsert) {
+		var results = '';
+		var queryObj = variables.utility.createBasicDBObject( arguments.query );
+		var doc1Obj = variables.utility.createBasicDBObject( arguments.doc1 );
+		
+		// Find && modify the document
+		if(structKeyExists(arguments, 'doc2')) {
+			if(structKeyExists(arguments, 'remove') && structKeyExists(arguments, 'doc3') && structKeyExists(arguments, 'returnNew') && structKeyExists(arguments, 'upsert')) {
+				return variables.utility.toCFType( variables.collection.findAndModify( queryObj, doc1Obj, variables.utility.createBasicDBObject( arguments.doc2 ), arguments.remove, variables.utility.createBasicDBObject( arguments.doc3 ), arguments.returnNew, arguments.upsert ) );
+			}
+			
+			return variables.utility.toCFType( variables.collection.findAndModify( queryObj, doc1Obj, variables.utility.createBasicDBObject( arguments.doc2 ) ) );
+		}
+		
+		return variables.utility.toCFType( variables.collection.findAndModify( queryObj, doc1Obj ) );
 	}
 	
 	public struct function findOne( any obj, struct fields ) {
@@ -213,7 +230,7 @@ component {
 	}
 	
 	public void function update( required struct query, required struct doc, boolean upsert, boolean multi ) {
-		if(structKeyExists(arguments, 'upsert') and structKeyExists(arguments, 'multi')) {
+		if(structKeyExists(arguments, 'upsert') && structKeyExists(arguments, 'multi')) {
 			variables.collection.update(
 				variables.utility.createBasicDBObject( arguments.query ),
 				variables.utility.createBasicDBObject( arguments.doc ),
