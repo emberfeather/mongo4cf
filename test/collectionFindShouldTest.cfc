@@ -161,6 +161,20 @@ component extends="test.base" {
 		assertEquals(5, arrayLen(results));
 	}
 	
+	public void function testSucceedWithQueryOperatorGreaterThanWithDate() {
+		var i = '';
+		var results = '';
+		var startDate = createDate(2010, 10, 10);
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'value' = dateAdd('d', i, startDate) });
+		}
+		
+		results = variables.collection.find({ 'value' = { '$gt' = dateAdd('d', 4, startDate) } }).toArray();
+		
+		assertEquals(6, arrayLen(results));
+	}
+	
 	public void function testSucceedWithQueryOperatorGreaterThanEqualTo() {
 		var i = '';
 		var results = '';
@@ -172,6 +186,20 @@ component extends="test.base" {
 		results = variables.collection.find({ 'test' = { '$gte' = 5 } }).toArray();
 		
 		assertEquals(6, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorGreaterThanEqualToWithDate() {
+		var i = '';
+		var results = '';
+		var startDate = createDate(2010, 10, 10);
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'value' = dateAdd('d', i, startDate) });
+		}
+		
+		results = variables.collection.find({ 'value' = { '$gte' = dateAdd('d', 8, startDate) } }).toArray();
+		
+		assertEquals(3, arrayLen(results));
 	}
 	
 	public void function testSucceedWithQueryOperatorIn() {
@@ -200,6 +228,20 @@ component extends="test.base" {
 		assertEquals(4, arrayLen(results));
 	}
 	
+	public void function testSucceedWithQueryOperatorLessThanWithDate() {
+		var i = '';
+		var results = '';
+		var startDate = createDate(2010, 10, 10);
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'value' = dateAdd('d', i, startDate) });
+		}
+		
+		results = variables.collection.find({ 'value' = { '$lt' = dateAdd('d', 5, startDate) } }).toArray();
+		
+		assertEquals(4, arrayLen(results));
+	}
+	
 	public void function testSucceedWithQueryOperatorLessThanEqualTo() {
 		var i = '';
 		var results = '';
@@ -211,6 +253,20 @@ component extends="test.base" {
 		results = variables.collection.find({ 'test' = { '$lte' = 5 } }).toArray();
 		
 		assertEquals(5, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorLessThanEqualToWithDate() {
+		var i = '';
+		var results = '';
+		var startDate = createDate(2010, 10, 10);
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'value' = dateAdd('d', i, startDate) });
+		}
+		
+		results = variables.collection.find({ 'value' = { '$lte' = dateAdd('d', 8, startDate) } }).toArray();
+		
+		assertEquals(8, arrayLen(results));
 	}
 	
 	public void function testSucceedWithQueryOperatorMod() {
@@ -235,6 +291,34 @@ component extends="test.base" {
 		}
 		
 		results = variables.collection.find({ 'test' = { '$ne' = 5 } }).toArray();
+		
+		assertEquals(9, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorNotEqualsWithDate() {
+		var i = '';
+		var results = '';
+		var startDate = createDate(2010, 10, 10);
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'value' = dateAdd('d', i, startDate) });
+		}
+		
+		results = variables.collection.find({ 'value' = { '$ne' = dateAdd('d', 4, startDate) } }).toArray();
+		
+		assertEquals(9, arrayLen(results));
+	}
+	
+	public void function testSucceedWithQueryOperatorNotEqualsWithDateRaw() {
+		var i = '';
+		var results = '';
+		var startDate = createDate(2010, 10, 10);
+		
+		for(i = 1; i <= 10; i++) {
+			variables.collection.insert({ 'value' = dateAdd('d', i, startDate) });
+		}
+		
+		results = variables.collection.find({ 'value' = { '$ne' = '2010/10/14' } }).toArray();
 		
 		assertEquals(9, arrayLen(results));
 	}

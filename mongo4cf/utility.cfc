@@ -103,6 +103,10 @@ component {
 			return javacast("long", value);
 		}
 		
+		if( isDate(value) ) {
+			return parseDateTime(value);
+		}
+		
 		return value;
 	}
 }
