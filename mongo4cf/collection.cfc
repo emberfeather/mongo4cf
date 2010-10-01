@@ -116,6 +116,10 @@ component {
 		return variables.utility.toCFType( variables.collection.findAndModify( queryObj, doc1Obj ) );
 	}
 	
+	public struct function findAndRemove( struct query = {} ) {
+		return variables.utility.toCFType( variables.collection.findAndRemove( variables.utility.createBasicDBObject( arguments.query ) ) );
+	}
+	
 	public struct function findOne( any obj, struct fields ) {
 		if(structKeyExists(arguments, 'obj') && structKeyExists(arguments, 'fields')) {
 			if(isStruct(arguments.obj)) {
