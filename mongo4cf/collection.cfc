@@ -123,19 +123,19 @@ component {
 	public struct function findOne( any obj, struct fields ) {
 		if(structKeyExists(arguments, 'obj') && structKeyExists(arguments, 'fields')) {
 			if(isStruct(arguments.obj)) {
-				return variables.utility.toCFType(variables.collection.findOne( variables.utility.createBasicDBObject( arguments.obj ), variables.utility.createBasicDBObject( arguments.fields ) ));
+				return variables.utility.toCFType( variables.collection.findOne( variables.utility.createBasicDBObject( arguments.obj ), variables.utility.createBasicDBObject( arguments.fields ) ));
 			}
 			
-			return variables.utility.toCFType(variables.collection.findOne( arguments.obj, variables.utility.createBasicDBObject( arguments.fields ) ));
+			return variables.utility.toCFType( variables.collection.findOne( arguments.obj, variables.utility.createBasicDBObject( arguments.fields ) ));
 		} else if(structKeyExists(arguments, 'obj')) {
 			if(isStruct(arguments.obj)) {
-				return variables.utility.toCFType(variables.collection.findOne( variables.utility.createBasicDBObject( arguments.obj ) ) );
+				return variables.utility.toCFType( variables.collection.findOne( variables.utility.createBasicDBObject( arguments.obj ) ) );
 			}
 			
-			return variables.utility.toCFType(variables.collection.findOne( arguments.obj ) );
+			return variables.utility.toCFType( variables.collection.findOne( arguments.obj ) );
 		}
 		
-		return variables.utility.toCFType(variables.collection.findOne());
+		return variables.utility.toCFType( variables.collection.findOne());
 	}
 	
 	public component function getDB() {
