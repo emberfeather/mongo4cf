@@ -212,6 +212,19 @@ component extends="test.base" {
 		assertEquals( 6, result.x[2] );
 	}
 	
+	public void function testSucceedOperatorPushToArrayComplex() {
+		var result = '';
+		
+		variables.collection.insert({ '_id' = 1, 'x' = [ { 'y' = 16 } ] });
+		
+		variables.collection.update({ '_id' = 1 }, { '$push' = { 'x' = { 'y' = 25 } } });
+		
+		result = variables.collection.findOne();
+		
+		assertEquals( 16, result.x[1].y );
+		assertEquals( 25, result.x[2].y );
+	}
+	
 	public void function testSucceedOperatorPushToNonArray() {
 		variables.collection.insert({ '_id' = 1, 'x' = 'test' });
 		
