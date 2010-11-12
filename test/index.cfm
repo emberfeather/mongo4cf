@@ -1,9 +1,16 @@
-<cfset directoryRunner = createObject('component', 'mxunit.runner.DirectoryTestSuite') />
+<cfsilent>
+	<cfset title = 'Unit Test Results' />
+	<cfset pathRoot = '../' />
+	
+	<cfset directoryRunner = createObject('component', 'mxunit.runner.DirectoryTestSuite') />
 
-<cfset results = directoryRunner.run(
-	directory = expandPath('.'),
-	recurse = true,
-	componentPath = 'test'
-) />
+	<cfset results = directoryRunner.run(
+		directory = expandPath('.'),
+		recurse = true,
+		componentPath = 'test'
+	) />
+	
+	<cfset content = results.getResultsOutput('rawhtml') />
+</cfsilent>
 
-<cfoutput>#results.getResultsOutput()#</cfoutput>
+<cfinclude template="../theme/index.cfm" />
