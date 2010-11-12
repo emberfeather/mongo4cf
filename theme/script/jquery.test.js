@@ -15,9 +15,7 @@
 				type = element.parent().attr('className');
 				
 				// Toggle all the matching tests
-				toggleTests(function toggleTests( type ) {
-					$('tr.' + type, container).toggle();
-				});
+				$('tr.' + type, container).toggle();
 				
 				return false;
 			});
