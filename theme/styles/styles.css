@@ -14,7 +14,7 @@
 */
 
 body {
-	background: #FFF url(../img/back.jpg) repeat-x top;
+	background: #FFF;
 	color: #333;
 	font: 11pt 'Josefin Sans Std Light', arial, serif;
 }
@@ -214,61 +214,66 @@ ul, ol {
  * MXUnit styles
  */
 
-table.results {
+.mxunitResults .summary .nav a {
+	-moz-border-radius: .5em;
+	-webkit-border-radius: .5em;
+}
+
+.mxunitResults table.results {
 	width: 100%
 }
 
-.nav.horizontal {
+.mxunitResults .nav.horizontal {
 	padding: 0;
 }
 
-.nav.horizontal li {
+.mxunitResults .nav.horizontal li {
 	float: left;
 	list-style: none;
+	margin: 0 1em 1em 0;
 }
 
-.nav.horizontal a,
-.nav.horizontal span {
+.mxunitResults .nav.horizontal a {
 	font-weight: bold;
 	display: block;
 }
 
-.summary {
-	margin: 1.5em 0;
-}
-
-.failed,
-.failed a {
+.mxunitResults .failed,
+.mxunitResults .failed a {
 	color:#101080;
 }
 
-.error,
-.error a {
+.mxunitResults .error,
+.mxunitResults .error a {
 	color: #c70000;
 }
 
-.success,
-.passed,
-.success a, 
-.passed a {
+.mxunitResults .success,
+.mxunitResults .passed,
+.mxunitResults .success a, 
+.mxunitResults .passed a {
 	color: #0d7008;
 }
 
-table.results th {
+.mxunitResults .nav.horizontal a.inactive {
+	color: #666;
+}
+
+.mxunitResults table.results th {
 	text-align: left;
 }
 
-table.results th.result,
-table.results th.speed {
+.mxunitResults table.results th.result,
+.mxunitResults table.results th.speed {
 	width: 6%;
 }
 
-table.results th.error,
-table.results th.output {
+.mxunitResults table.results th.error,
+.mxunitResults table.results th.output {
 	width: 22%;
 }
 
-table.results td.result,
-table.results td.speed {
+.mxunitResults table.results td.result,
+.mxunitResults table.results td.speed {
 	font-weight: bold;
 }

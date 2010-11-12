@@ -1,6 +1,7 @@
 <cfsilent>
 	<cfset title = 'Home' />
 	<cfset pathRoot = '' />
+	<cfset scripts = '' />
 	
 	<cfsavecontent variable="content">
 		<cfoutput>

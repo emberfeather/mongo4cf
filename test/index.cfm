@@ -11,6 +11,8 @@
 	) />
 	
 	<cfset content = results.getResultsOutput('rawhtml') />
+	
+	<cfset scripts = '<script src="#pathRoot#theme/script/jquery.test.js"></script>' />
 </cfsilent>
 
 <cfinclude template="../theme/index.cfm" />

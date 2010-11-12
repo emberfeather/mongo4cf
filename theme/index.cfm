@@ -2,6 +2,7 @@
 	<cfparam name="title" default="Home" />
 	<cfparam name="pathRoot" default="" />
 	<cfparam name="content" default="" />
+	<cfparam name="scripts" default="" />
 </cfsilent>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -27,10 +28,15 @@
 			</header>
 			
 			<div class="content">
-				<cfoutput>#content#</cfoutput>
+				<div class="grid_12">
+					<cfoutput>#content#</cfoutput>
+				</div>
 				
 				<div class="clear"><!-- clear --></div>
 			</div>
 		</div>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+		<cfoutput>#scripts#</cfoutput>
 	</body>
 </html>
