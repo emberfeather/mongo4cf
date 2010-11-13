@@ -51,7 +51,7 @@ component {
 	
 	public component function hint( required any index ) {
 		if(isStruct(arguments.index)) {
-			variables.cursor.hint( variables.utility.createBasicDBObject( duplicate( arguments.index ) ) );
+			variables.cursor.hint( variables.utility.createBasicDBObject( arguments.index ) );
 		} else {
 			variables.cursor.hint( index );
 		}
@@ -106,7 +106,7 @@ component {
 	}
 	
 	public component function sort( struct orderBy = {} ) {
-		variables.cursor.sort( variables.utility.createBasicDBObject( duplicate( arguments.orderBy ) ) );
+		variables.cursor.sort( variables.utility.createBasicDBObject( arguments.orderBy ) );
 		
 		// Allow chaining
 		return this;

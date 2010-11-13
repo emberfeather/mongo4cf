@@ -1,5 +1,8 @@
 component {
 	public component function init() {
+		variables.factory = createObject('component', 'mongo4cf.factory').init();
+		variables.pattern = createObject('java', 'java.util.regex.Pattern');
+		
 		return this;
 	}
 	
@@ -7,7 +10,7 @@ component {
 	 * Used to recursively create a java BasicDBObject from a CF struct
 	 */
 	public any function createBasicDBObject(struct doc = {}) {
-		var dbObject = createObject('java', 'com.mongodb.BasicDBObject', '/mongo4cf/lib/mongo.jar').init();
+		var dbObject = getJavaObject('com.mongodb.BasicDBObject').init();
 		var key = '';
 		
 		for( key in arguments.doc ) {
@@ -20,6 +23,29 @@ component {
 		}
 		
 		return dbObject;
+	}
+	
+	public any function getJavaObject( required string definition ) {
+		return variables.factory.getJavaObject(arguments.definition);
+	}
+	
+	public any function regex( required string expression, string modifiers = '' ) {
+		var flags = 0;
+		
+		// Check for modifiers
+		if(find('i', arguments.modifiers)) {
+			flags = bitOr( flags, variables.pattern.CASE_INSENSITIVE );
+		}
+		
+		if(find('m', arguments.modifiers)) {
+			flags = bitOr( flags, variables.pattern.MULTILINE );
+		}
+		
+		if(find('x', arguments.modifiers)) {
+			flags = bitOr( flags, variables.pattern.COMMENTS );
+		}
+		
+		return variables.pattern.compile( arguments.expression, flags );
 	}
 	
 	public any function toCFType(required any value ) {
@@ -37,7 +63,9 @@ component {
 			temp = {};
 			
 			for( i = 1; i <= arrayLen(keys); i++ ) {
-				temp[keys[i]] = toCFType(arguments.value[keys[i]]);
+				if( !isNull(arguments.value.get(keys[i]) )) {
+					temp[keys[i]] = toCFType(arguments.value[keys[i]]);
+				}
 			}
 			
 			return temp;
@@ -45,9 +73,13 @@ component {
 		
 		// Look for arrays
 		if( isArray(arguments.value) ) {
+			temp = [];
+			
 			for( i = 1; i <= arrayLen(arguments.value); i++ ) {
-				arguments.value[i] = toCFType(arguments.value[i]);
+				temp[i] = toCFType(arguments.value[i]);
 			}
+			
+			return temp;
 		}
 		
 		// Check for native java objects
@@ -69,6 +101,10 @@ component {
 		
 		if( isNumeric(value) ) {
 			return javacast("long", value);
+		}
+		
+		if( isDate(value) ) {
+			return parseDateTime(value);
 		}
 		
 		return value;
