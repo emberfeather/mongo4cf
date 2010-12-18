@@ -38,7 +38,7 @@
 			<args>
 				<arg value="release" />
 				<arg value="start" />
-				<arg value="v${project.version}" />
+				<arg value="${project.version}" />
 			</args>
 		</git>
 		
@@ -68,8 +68,8 @@
 			<args>
 				<arg value="release" />
 				<arg value="finish" />
-				<arg value="v${project.version}" />
-				<arg value="-m 'Tagging version v${project.version}'" />
+				<arg value="${project.version}" />
+				<arg value="-m 'Tagging version ${project.version}'" />
 			</args>
 		</git>
 		
@@ -145,7 +145,7 @@
 		<property name="project.version" value="${project.version.major}.${project.version.minor}.${project.version.build}"/>
 		
 		<!-- Update the version number for future development -->
-		<replaceregexp file="${project.key}/config/${project.key}.json.cfm"
+		<replaceregexp file="${project.key}/config/project.json.cfm"
 			match="&#34;version&#34;: &#34;[0-9\.]*&#34;"
 			replace="&#34;version&#34;: &#34;${project.version}&#34;"
 			byline="true"/>
