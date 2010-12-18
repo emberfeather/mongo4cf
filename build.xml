@@ -38,7 +38,7 @@
 			<args>
 				<arg value="release" />
 				<arg value="start" />
-				<arg value="v${project.version}" />
+				<arg value="${project.version}" />
 			</args>
 		</git>
 		
@@ -68,8 +68,8 @@
 			<args>
 				<arg value="release" />
 				<arg value="finish" />
-				<arg value="v${project.version}" />
-				<arg value="-m 'Tagging version v${project.version}'" />
+				<arg value="${project.version}" />
+				<arg value="-m 'Tagging version ${project.version}'" />
 			</args>
 		</git>
 		
