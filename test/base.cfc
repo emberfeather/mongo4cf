@@ -12,7 +12,7 @@ component extends="mxunit.framework.TestCase" {
 	 */
 	public void function setup( required string collectionName ) {
 		// Make sure that the collection is fully empty before running tests
-		db.getCollection(arguments.collectionName).drop();
+		variables.db.getCollection(arguments.collectionName).drop();
 		
 		// Create a new collection
 		variables.collection = db.getCollection(arguments.collectionName);
