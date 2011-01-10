@@ -16,4 +16,8 @@ component {
 		
 		return createObject('java', arguments.definition, '/mongo4cf/lib/mongo.jar');
 	}
+	
+	public boolean function isUsingJavaloader() {
+		return variables.useJavaloader;
+	}
 }
