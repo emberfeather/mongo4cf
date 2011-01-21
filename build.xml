@@ -4,12 +4,8 @@
 	<property file="${basedir}/build/settings/user.properties"/>
 	<property file="${basedir}/build/settings/project.properties"/>
 	<property file="${basedir}/build/settings/version.properties"/>
-	<property file="${basedir}/build/settings/build.properties"/>
 	<property file="${basedir}/build/settings/test.properties"/>
 	
 	<!-- Include the master build file -->
-	<property name="master.basedir" value="${basedir}/build/master"/>
-	<property file="${master.basedir}/settings/build.properties"/>
-	
-	<import file="${master.basedir}/master.xml"/>
+	<import file="${basedir}/build/master/master.xml"/>
 </project>
