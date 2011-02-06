@@ -8,3 +8,9 @@ test.mxunit.componentpath=test
 
 # varScoper
 test.varscoper.base=/varscoper
+
+# less CSS
+compile.less.path=/home/randy/bin/
+
+# Set options for the build
+options.lessCSS=true
