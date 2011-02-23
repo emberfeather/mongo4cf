@@ -56,7 +56,7 @@ component {
 		}
 	}
 	
-	public boolean function equals( required component otherCollection ) {
+	public boolean function $equals( required component otherCollection ) {
 		return variables.collection.equals(arguments.otherCollection._getRaw());
 	}
 	
