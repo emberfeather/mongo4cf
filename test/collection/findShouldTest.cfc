@@ -1,6 +1,8 @@
 component extends="test.base" {
 	public void function setup() {
 		super.setup('collection_find');
+		
+		variables.utility = createObject('component', 'mongo4cf.utility').init();
 	}
 	
 	public void function testSucceedWithOneDocument() {
@@ -374,7 +376,7 @@ component extends="test.base" {
 		variables.collection.insert({ 'test' = 'my4mOnkies' });
 		variables.collection.insert({ 'test' = 'your4monks' });
 		
-		results = variables.collection.find({ 'test' = variables.collection.regex('monk', 'i') }).toArray();
+		results = variables.collection.find({ 'test' = variables.utility.regex('monk', 'i') }).toArray();
 		assertEquals(3, arrayLen(results));
 	}
 	
@@ -388,7 +390,7 @@ component extends="test.base" {
 		variables.collection.insert({ 'test' = 'my4mOnkies' });
 		variables.collection.insert({ 'test' = 'your4monks' });
 		
-		results = variables.collection.find({ 'test' = variables.collection.regex('n	k', 'x') }).toArray();
+		results = variables.collection.find({ 'test' = variables.utility.regex('n	k', 'x') }).toArray();
 		assertEquals(3, arrayLen(results));
 	}
 	
@@ -402,7 +404,7 @@ component extends="test.base" {
 		variables.collection.insert({ 'test' = 'my' & chr(10) & '4mOnkies' });
 		variables.collection.insert({ 'test' = 'your' & chr(10) & '4monks' });
 		
-		results = variables.collection.find({ 'test' = variables.collection.regex('s$', 'm') }).toArray();
+		results = variables.collection.find({ 'test' = variables.utility.regex('s$', 'm') }).toArray();
 		assertEquals(5, arrayLen(results));
 	}
 	
@@ -416,7 +418,7 @@ component extends="test.base" {
 		variables.collection.insert({ 'test' = 'my4mOnkies' });
 		variables.collection.insert({ 'test' = 'your4monks' });
 		
-		results = variables.collection.find({ 'test' = variables.collection.regex('monk') }).toArray();
+		results = variables.collection.find({ 'test' = variables.utility.regex('monk') }).toArray();
 		assertEquals(2, arrayLen(results));
 	}
 	
@@ -430,7 +432,7 @@ component extends="test.base" {
 		variables.collection.insert({ 'test' = 'my4mOnkies' });
 		variables.collection.insert({ 'test' = 'your4monks' });
 		
-		results = variables.collection.find({ 'test' = variables.collection.regex('2.*s') }).toArray();
+		results = variables.collection.find({ 'test' = variables.utility.regex('2.*s') }).toArray();
 		assertEquals(2, arrayLen(results));
 	}
 	
