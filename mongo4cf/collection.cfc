@@ -214,10 +214,6 @@ component {
 		return variables.collection.isCapped();
 	}
 	
-	public any function regex( required string expression, string modifiers = '' ) {
-		return variables.utility.regex( argumentCollection = arguments );
-	}
-	
 	public void function remove( required struct doc ) {
 		variables.collection.remove( variables.utility.createBasicDBObject( arguments.doc ) );
 	}
