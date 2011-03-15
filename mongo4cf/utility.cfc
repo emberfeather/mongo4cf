@@ -2,6 +2,7 @@ component {
 	public component function init() {
 		variables.factory = createObject('component', 'mongo4cf.factory').init();
 		variables.pattern = createObject('java', 'java.util.regex.Pattern');
+		variables.oro = getJavaObject('org.apache.oro.text.regex.Perl5Compiler').init();
 		
 		return this;
 	}
@@ -46,6 +47,10 @@ component {
 		}
 		
 		return variables.pattern.compile( arguments.expression, flags );
+	}
+	
+	public string function reescape( required string expression ) {
+		return variables.oro.quotemeta(arguments.expression);
 	}
 	
 	public any function toCFType(required any value ) {

@@ -75,7 +75,7 @@ component {
 		return this;
 	}
 	
-	public numeric function next() {
+	public struct function next() {
 		return variables.utility.toCFType(variables.cursor.next());
 	}
 	
