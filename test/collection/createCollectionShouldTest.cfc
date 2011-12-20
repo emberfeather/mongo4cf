@@ -8,7 +8,7 @@ component extends="test.base" {
 		
 		variables.collection.drop();
 		
-		variables.collection = variables.db.createCollection(variables.collectionName, { 'capped' = true });
+		variables.collection = variables.db.createCollection(variables.collectionName, { 'capped' = true, 'size' = 10000 });
 		
 		assertTrue(variables.collection.isCapped());
 	}
