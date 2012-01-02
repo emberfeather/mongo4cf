@@ -9,11 +9,11 @@ component {
 	}
 	
 	public void function addUser(required string username, required string password) {
-		variables.db.addUser(arguments.username, arguments.password);
+		variables.db.addUser(arguments.username, arguments.password.toCharArray());
 	}
 	
 	public boolean function authenticate(required string username, required string password) {
-		return variables.db.authenticate(arguments.username, arguments.password);
+		return variables.db.authenticate(arguments.username, arguments.password.toCharArray());
 	}
 	
 	public boolean function collectionExists(required string collectionName) {
