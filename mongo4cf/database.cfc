@@ -69,6 +69,10 @@ component {
 		return variables.db.isAuthenticated();
 	}
 	
+	public void function removeUser(required string username) {
+		variables.db.removeUser(arguments.username);
+	}
+	
 	public void function resetIndexCache() {
 		variables.db.resetIndexCache();
 	}
