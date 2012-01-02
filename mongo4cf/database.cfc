@@ -8,8 +8,8 @@ component {
 		return this;
 	}
 	
-	public void function addUser(required string username, required string password) {
-		variables.db.addUser(arguments.username, arguments.password.toCharArray());
+	public void function addUser(required string username, required string password, boolean readOnly = false) {
+		variables.db.addUser(arguments.username, arguments.password.toCharArray(), arguments.readOnly);
 	}
 	
 	public boolean function authenticate(required string username, required string password) {
