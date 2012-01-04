@@ -8,7 +8,7 @@ component extends="test.base" {
 	}
 	
 	public void function testReturnRecordWithIdWithResults() {
-		collection.insert({ '_id' = 123, 'test' = 'hello' });
+		variables.collection.insert({ '_id' = 123, 'test' = 'hello' });
 		
 		assertFalse(structIsEmpty(variables.collection.findOne( 123 )));
 	}
@@ -16,7 +16,7 @@ component extends="test.base" {
 	public void function testReturnRecordWithIdWithKeyFilterWithResults() {
 		var result = '';
 		
-		collection.insert({ '_id' = 123, 'i' = 2, 'y' = 3, 'z' = 4 });
+		variables.collection.insert({ '_id' = 123, 'i' = 2, 'y' = 3, 'z' = 4 });
 		
 		result = variables.collection.findOne( 123, { 'z' = 0 } );
 		
@@ -26,13 +26,13 @@ component extends="test.base" {
 	}
 	
 	public void function testReturnRecordWithIdWithoutResults() {
-		collection.insert({ '_id' = 123, 'test' = 'hello' });
+		variables.collection.insert({ '_id' = 123, 'test' = 'hello' });
 		
 		assertTrue(structIsEmpty(variables.collection.findOne( 321 )));
 	}
 	
 	public void function testReturnRecordWithRecordsWithQueryWithResults() {
-		collection.insert({ 'test' = 'hello' });
+		variables.collection.insert({ 'test' = 'hello' });
 		
 		assertFalse(structIsEmpty(variables.collection.findOne( { 'test' = 'hello' } )));
 	}
@@ -40,7 +40,7 @@ component extends="test.base" {
 	public void function testReturnRecordWithRecordsWithQueryWithKeyFilterWithResults() {
 		var result = '';
 		
-		collection.insert({ 'test' = 'hello', 'other' = 'yes' });
+		variables.collection.insert({ 'test' = 'hello', 'other' = 'yes' });
 		
 		result = variables.collection.findOne( { 'test' = 'hello' }, { 'other' = 0 } );
 		
@@ -49,8 +49,30 @@ component extends="test.base" {
 	}
 	
 	public void function testReturnEmptyWithRecordsWithQueryWithoutResults() {
-		collection.insert({ 'test' = 'hello' });
+		variables.collection.insert({ 'test' = 'hello' });
 		
 		assertTrue(structIsEmpty(variables.collection.findOne( { 'test' = 'world' } )));
+	}
+	
+	public void function testReturnRecordWithoutIdWithGeneratedID() {
+		variables.collection.insert({ 'test' = 'hello' });
+		
+		local.result = variables.collection.findOne();
+		
+		assertFalse(structIsEmpty(variables.collection.findOne({ '_id': local.result._id })));
+	}
+	
+	public void function testReturnRecordWithoutIdWithGeneratedIDUsingUtility() {
+		variables.collection.insert({ 'test' = 'hello' });
+		
+		local.result = variables.collection.findOne();
+		
+		assertFalse(structIsEmpty(variables.collection.findOne({ '_id': variables.utility.objectID(local.result._id) })));
+	}
+	
+	public void function testReturnRecordWithoutIdWithResults() {
+		variables.collection.insert({ 'test' = 'hello' });
+		
+		assertFalse(structIsEmpty(variables.collection.findOne()));
 	}
 }

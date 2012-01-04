@@ -4,6 +4,7 @@ component extends="mxunit.framework.TestCase" {
 	 */
 	public void function beforeTests() {
 		variables.mongo = createObject('component', 'mongo4cf.mongo').init();
+		variables.utility = createObject('component', 'mongo4cf.utility').init();
 		variables.db = variables.mongo.getDB('mongo4cf_test');
 	}
 	
