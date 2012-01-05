@@ -1,5 +1,12 @@
 component extends="mxunit.framework.TestCase" {
 	/**
+	 * Destroy database connections
+	 */
+	public void function afterTests() {
+		variables.mongo.close();
+	}
+	
+	/**
 	 * Setup a database information
 	 */
 	public void function beforeTests() {
