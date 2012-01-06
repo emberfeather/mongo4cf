@@ -15,15 +15,29 @@ component {
 		var key = '';
 		
 		for( key in arguments.doc ) {
-			// Handle nested documents
-			if( isStruct(arguments.doc[key]) ) {
+			if( key == '_id' && isSimpleValue(arguments.doc[key]) && len(arguments.doc[key]) == 24 ) {
+				// Automatically convert an _id field to an ObjectID
+				dbObject.append(key, objectID(arguments.doc[key]));
+			} else if( isStruct(arguments.doc[key]) ) {
+				// Handle nested documents
 				dbObject.append(key, createBasicDBObject(arguments.doc[key]));
+			} else if( isObject(arguments.doc[key]) ) {
+				// Allow for java objects
+				dbObject.append(key, arguments.doc[key]);
 			} else {
+				// Convert the value to a java object when necessary
 				dbObject.append(key, toJavaType(arguments.doc[key]));
 			}
 		}
 		
 		return dbObject;
+	}
+	
+	/**
+	 * Shortcut for creating the ObjectID object
+	 */
+	public any function objectID(string id) {
+		return getJavaObject('org.bson.types.ObjectId').init(id);
 	}
 	
 	public any function getJavaObject( required string definition ) {

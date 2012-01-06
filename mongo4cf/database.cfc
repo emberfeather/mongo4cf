@@ -8,12 +8,12 @@ component {
 		return this;
 	}
 	
-	public void function addUser(required string username, required string password) {
-		variables.db.addUser(arguments.username, arguments.password);
+	public void function addUser(required string username, required string password, boolean readOnly = false) {
+		variables.db.addUser(arguments.username, arguments.password.toCharArray(), arguments.readOnly);
 	}
 	
 	public boolean function authenticate(required string username, required string password) {
-		return variables.db.authenticate(arguments.username, arguments.password);
+		return variables.db.authenticate(arguments.username, arguments.password.toCharArray());
 	}
 	
 	public boolean function collectionExists(required string collectionName) {
@@ -67,6 +67,10 @@ component {
 	
 	public boolean function isAuthenticated() {
 		return variables.db.isAuthenticated();
+	}
+	
+	public void function removeUser(required string username) {
+		variables.db.removeUser(arguments.username);
 	}
 	
 	public void function resetIndexCache() {
