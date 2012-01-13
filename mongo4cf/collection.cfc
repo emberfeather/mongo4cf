@@ -7,6 +7,14 @@ component {
 		return this;
 	}
 	
+	public numeric function count( struct query ) {
+		if( structKeyExists(arguments, 'query') ) {
+			return variables.collection.count( variables.utility.createBasicDBObject( arguments.query ) );
+		}
+		
+		return variables.collection.count();
+	}
+	
 	public void function createIndex( required struct index ) {
 		variables.collection.createIndex( variables.utility.createBasicDBObject( arguments.index ) );
 	}
